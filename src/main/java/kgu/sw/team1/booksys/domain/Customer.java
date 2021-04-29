@@ -18,7 +18,7 @@ public class Customer {
     private String phoneNumber;
 
     @OneToOne
-    @JoinColumn(name = "reservation_id")
+    @JoinColumn(name = "reservation_oid")
     private Reservation reservation;
 
     public Customer() {
