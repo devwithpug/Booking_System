@@ -9,12 +9,12 @@ public class Customer {
     @Id
     @GeneratedValue
     @Column(name = "oid")
-    private int oid;
+    private Integer oid;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @OneToOne
@@ -24,18 +24,18 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int oid, String name, String phoneNumber, Reservation reservation) {
+    public Customer(Integer oid, String name, String phoneNumber, Reservation reservation) {
         this.oid = oid;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.reservation = reservation;
     }
 
-    public int getOid() {
+    public Integer getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
+    public void setOid(Integer oid) {
         this.oid = oid;
     }
 

@@ -1,28 +1,28 @@
 package kgu.sw.team1.booksys.domain;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Reservation")
+@Table(name = "reservation")
 public class Reservation implements Booking{
     @Id
     @GeneratedValue
     @Column(name = "oid")
-    private int oid;
+    private Integer oid;
 
     @Column(name = "covers")
-    private int covers;
+    private Integer covers;
 
     @Column(name = "date")
     private LocalDateTime date;
 
     @Column(name = "time")
-    private Time time;
+    private Timestamp time;
 
-    @Column(name = "arrivalTime")
-    private Time arrivalTime;
+    @Column(name = "arrival_time")
+    private Timestamp arrivalTime;
 
     @OneToOne(mappedBy = "reservation")
     private Tables table;
@@ -33,7 +33,7 @@ public class Reservation implements Booking{
     public Reservation() {
     }
 
-    public Reservation(int oid, int covers, LocalDateTime date, Time time, Time arrivalTime, Tables table, Customer customer) {
+    public Reservation(Integer oid, Integer covers, LocalDateTime date, Timestamp time, Timestamp arrivalTime, Tables table, Customer customer) {
         this.oid = oid;
         this.covers = covers;
         this.date = date;
@@ -43,19 +43,17 @@ public class Reservation implements Booking{
         this.customer = customer;
     }
 
-    public int getOid() {
+    public Integer getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
-        this.oid = oid;
-    }
+    public void setOid(Integer oid) {}
 
-    public int getCovers() {
+    public Integer getCovers() {
         return covers;
     }
 
-    public void setCovers(int covers) {
+    public void setCovers(Integer covers) {
         this.covers = covers;
     }
 
@@ -64,28 +62,27 @@ public class Reservation implements Booking{
     }
 
     @Override
-    public Time getEndTime() {
-        Time endTime = new Time(time.getTime() + (2 * 60 * 60 * 1000));
-        return endTime;
+    public Timestamp getEndTime() {
+        return new Timestamp(time.getTime() + (2 * 60 * 60 * 1000));
     }
 
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Time getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
-    public Time getArrivalTime() {
+    public Timestamp getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Time arrivalTime) {
+    public void setArrivalTime(Timestamp arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
@@ -94,7 +91,7 @@ public class Reservation implements Booking{
     }
 
     @Override
-    public int getTableNumber() {
+    public Integer getTableNumber() {
         return table.getNumber();
     }
 
