@@ -33,6 +33,16 @@ public class Reservation implements Booking{
     public Reservation() {
     }
 
+    public Reservation(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables table, Customer customer) {
+        this.oid = oid;
+        this.covers = covers;
+        this.date = date;
+        this.time = time;
+        this.arrivalTime = null;
+        this.table = table;
+        this.customer = customer;
+    }
+
     public Integer getOid() {
         return oid;
     }

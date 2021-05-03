@@ -27,6 +27,14 @@ public class WalkIn implements Booking{
     public WalkIn() {
     }
 
+    public WalkIn(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables table) {
+        this.oid = oid;
+        this.covers = covers;
+        this.date = date;
+        this.time = time;
+        this.table = table;
+    }
+
     public Integer getOid() {
         return oid;
     }
