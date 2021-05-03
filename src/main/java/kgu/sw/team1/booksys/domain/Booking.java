@@ -1,23 +1,20 @@
 package kgu.sw.team1.booksys.domain;
 
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public interface Booking {
-    Timestamp getArrivalTime();
+    LocalTime getArrivalTime();
     Integer getCovers() ;
-    LocalDateTime getDate() ;
-    Timestamp getEndTime() ;
-    Timestamp getTime() ;
+    LocalDate getDate() ;
+    LocalTime getEndTime() ;
+    LocalTime getTime() ;
     Tables getTable() ;
-    Integer getTableNumber() ;
 
-//    String getDetails() ;
-
-    void setArrivalTime(Timestamp t) ;
+    void setArrivalTime(LocalTime t) ;
     void setCovers(Integer c) ;
-    void setDate(LocalDateTime d) ;
-    void setTime(Timestamp t) ;
+    void setDate(LocalDate d) ;
+    void setTime(LocalTime t) ;
     void setTable(Tables t) ;
 }

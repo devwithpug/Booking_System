@@ -8,8 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,8 +63,8 @@ class JpaRepositoryTest {
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
-        reservation.setArrivalTime(new Timestamp(System.currentTimeMillis()));
-        reservation.setDate(LocalDateTime.now());
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
         reservation.setTable(table);
         // when
@@ -95,8 +96,8 @@ class JpaRepositoryTest {
 
         WalkIn walkIn = new WalkIn();
         walkIn.setCovers(1);
-        walkIn.setTime(new Timestamp(System.currentTimeMillis()));
-        walkIn.setDate(LocalDateTime.now());
+        walkIn.setTime(LocalTime.now());
+        walkIn.setDate(LocalDate.now());
         walkIn.setTable(table);
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
@@ -165,8 +166,8 @@ class JpaRepositoryTest {
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
-        reservation.setArrivalTime(new Timestamp(System.currentTimeMillis()));
-        reservation.setDate(LocalDateTime.now());
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
         reservation.setTable(table);
         // when
@@ -175,7 +176,7 @@ class JpaRepositoryTest {
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
 
-        Reservation result = reservationRepository.findByArrivalTime(savedReservation.getArrivalTime());
+        Reservation result = reservationRepository.findByTime(savedReservation.getTime());
         assertThat(result).isEqualTo(savedReservation);
     }
 
@@ -188,14 +189,14 @@ class JpaRepositoryTest {
 
         WalkIn walkIn = new WalkIn();
         walkIn.setCovers(1);
-        walkIn.setTime(new Timestamp(System.currentTimeMillis()));
-        walkIn.setDate(LocalDateTime.now());
+        walkIn.setTime(LocalTime.now());
+        walkIn.setDate(LocalDate.now());
         walkIn.setTable(table);
         // when
         tablesRepository.save(table);
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
         // then
-        Timestamp time = savedWalkIn.getTime();
+        LocalTime time = savedWalkIn.getTime();
         WalkIn result = walkInRepository.findByTime(time);
         assertThat(result).isEqualTo(savedWalkIn);
     }
@@ -219,8 +220,8 @@ class JpaRepositoryTest {
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
-        reservation.setArrivalTime(new Timestamp(System.currentTimeMillis()));
-        reservation.setDate(LocalDateTime.now());
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
         reservation.setTable(table);
         // when
@@ -247,18 +248,21 @@ class JpaRepositoryTest {
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
-        reservation.setArrivalTime(new Timestamp(System.currentTimeMillis()));
-        reservation.setDate(LocalDateTime.now());
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
         reservation.setTable(table);
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
-        Timestamp before = savedReservation.getArrivalTime();
-        Timestamp after = new Timestamp(before.getTime() + (3 * 60 * 60 * 1000));
-        savedReservation.setArrivalTime(after);
+        LocalTime before = savedReservation.getTime();
+        LocalTime after = before.plusHours(3);
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("HH:mm:ss");
+        System.out.println("before = " + f.format(before));
+        System.out.println("after = " + f.format(after));
+        savedReservation.setTime(after);
         Reservation result = reservationRepository.save(reservation);
-        assertThat(result.getArrivalTime()).isEqualTo(after);
+        assertThat(result.getTime()).isEqualTo(after);
     }
 
     /**
@@ -291,8 +295,8 @@ class JpaRepositoryTest {
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
-        reservation.setArrivalTime(new Timestamp(System.currentTimeMillis()));
-        reservation.setDate(LocalDateTime.now());
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
         reservation.setTable(table);
         // when
@@ -326,8 +330,8 @@ class JpaRepositoryTest {
 
         WalkIn walkIn = new WalkIn();
         walkIn.setCovers(1);
-        walkIn.setTime(new Timestamp(System.currentTimeMillis()));
-        walkIn.setDate(LocalDateTime.now());
+        walkIn.setTime(LocalTime.now());
+        walkIn.setDate(LocalDate.now());
         walkIn.setTable(table);
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);

@@ -5,9 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import java.time.LocalTime;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-    Reservation findByArrivalTime(Timestamp timestamp);
+    Reservation findByArrivalTime(LocalTime arrivalTime);
+    Reservation findByTime(LocalTime time);
 }

@@ -1,9 +1,8 @@
 package kgu.sw.team1.booksys.domain;
 
 import javax.persistence.*;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "walk_in")
@@ -17,23 +16,15 @@ public class WalkIn implements Booking{
     private Integer covers;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "time")
-    private Timestamp time;
+    private LocalTime time;
 
     @OneToOne(mappedBy = "walk_in")
     private Tables table;
 
     public WalkIn() {
-    }
-
-    public WalkIn(Integer oid, Integer covers, LocalDateTime date, Timestamp time, Tables table) {
-        this.oid = oid;
-        this.covers = covers;
-        this.date = date;
-        this.time = time;
-        this.table = table;
     }
 
     public Integer getOid() {
@@ -45,52 +36,56 @@ public class WalkIn implements Booking{
     }
 
     @Override
-    public Timestamp getArrivalTime() {
+    public LocalTime getArrivalTime() {
         return null;
     }
 
+    @Override
     public Integer getCovers() {
         return covers;
     }
 
+    @Override
     public void setCovers(Integer covers) {
         this.covers = covers;
     }
 
-    public LocalDateTime getDate() {
+    @Override
+    public LocalDate getDate() {
         return date;
     }
 
     @Override
-    public Timestamp getEndTime() {
-        return new Timestamp(time.getTime() + (2 * 60 * 60 * 1000));
+    public LocalTime getEndTime() {
+        LocalTime endTime = time;
+        return endTime.plusHours(2);
     }
 
-    public void setDate(LocalDateTime date) {
+    @Override
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Timestamp getTime() {
+    @Override
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    @Override
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
+    @Override
     public Tables getTable() {
         return table;
     }
 
     @Override
-    public Integer getTableNumber() {
-        return table.getNumber();
+    public void setArrivalTime(LocalTime t) {
     }
 
     @Override
-    public void setArrivalTime(Timestamp t) {
-    }
-
     public void setTable(Tables table) {
         this.table = table;
     }
