@@ -1,10 +1,14 @@
 package kgu.sw.team1.booksys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "customer")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Customer {
     @Id
     @GeneratedValue
@@ -17,18 +21,10 @@ public class Customer {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "reservation_oid")
+    @OneToOne(mappedBy = "customer")
     private Reservation reservation;
 
     public Customer() {
-    }
-
-    public Customer(Integer oid, String name, String phoneNumber, Reservation reservation) {
-        this.oid = oid;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.reservation = reservation;
     }
 
     public Integer getOid() {

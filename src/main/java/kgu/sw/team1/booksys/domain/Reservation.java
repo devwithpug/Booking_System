@@ -1,12 +1,17 @@
 package kgu.sw.team1.booksys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "reservation")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Reservation implements Booking{
+
     @Id
     @GeneratedValue
     @Column(name = "oid")
@@ -24,22 +29,24 @@ public class Reservation implements Booking{
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    @OneToOne(mappedBy = "reservation")
-    private Tables table;
+    @OneToOne
+    @JoinColumn(name = "tables_oid")
+    private Tables tables;
 
-    @OneToOne(mappedBy = "reservation")
+    @OneToOne
+    @JoinColumn(name = "customer_oid")
     private Customer customer;
 
     public Reservation() {
     }
 
-    public Reservation(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables table, Customer customer) {
+    public Reservation(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables tables, Customer customer) {
         this.oid = oid;
         this.covers = covers;
         this.date = date;
         this.time = time;
         this.arrivalTime = null;
-        this.table = table;
+        this.tables = tables;
         this.customer = customer;
     }
 
@@ -97,14 +104,12 @@ public class Reservation implements Booking{
         this.arrivalTime = arrivalTime;
     }
 
-    @Override
-    public Tables getTable() {
-        return table;
+    public Tables getTables() {
+        return tables;
     }
 
-    @Override
-    public void setTable(Tables table) {
-        this.table = table;
+    public void setTables(Tables table) {
+        this.tables = table;
     }
 
     public Customer getCustomer() {

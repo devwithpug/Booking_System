@@ -1,10 +1,14 @@
 package kgu.sw.team1.booksys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "tables")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class Tables {
 
     @Id
@@ -18,21 +22,24 @@ public class Tables {
     @Column(name = "places")
     private Integer places;
 
-    @OneToOne
-    @JoinColumn(name = "reservation_oid")
+    @Column(name = "empty")
+    private Boolean empty;
+
+    @OneToOne(mappedBy = "tables")
     private Reservation reservation;
 
-    @OneToOne
-    @JoinColumn(name = "walk_in_oid")
+    @OneToOne(mappedBy = "tables")
     private WalkIn walk_in;
 
     public Tables() {
+        empty = true;
     }
 
-    public Tables(Integer oid, Integer number, Integer places, Reservation reservation, WalkIn walk_in) {
+    public Tables(Integer oid, Integer number, Integer places, Boolean empty, Reservation reservation, WalkIn walk_in) {
         this.oid = oid;
         this.number = number;
         this.places = places;
+        this.empty = empty;
         this.reservation = reservation;
         this.walk_in = walk_in;
     }
@@ -43,6 +50,18 @@ public class Tables {
 
     public void setOid(Integer oid) {
         this.oid = oid;
+    }
+
+    public void toggle() {
+        empty = !empty;
+    }
+
+    public Boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(Boolean empty) {
+        this.empty = empty;
     }
 
     public Integer getNumber() {
