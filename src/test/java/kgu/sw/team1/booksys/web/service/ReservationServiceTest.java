@@ -52,17 +52,18 @@ class ReservationServiceTest {
     @Test
     void 현장_예약_생성() {
         // given
-        Tables savedTables = tablesRepository.save(new Tables());
-
+        Tables tables = new Tables();
+        tables.toggle();
+        Tables savedTables = tablesRepository.save(tables);
+        tablesRepository.save(new Tables());
         WalkInParam param = new WalkInParam();
         param.setCovers(2);
-        param.setDate("2021-07-30");
-        param.setTime("15:30:00");
+        param.setDate("2021-12-25");
+        param.setTime("12:00:00");
         // when
         WalkIn savedWalkIn = reservationService.makeOnSiteReservation(param);
         // then
-        assertThat(savedTables.getOid()).isEqualTo(savedWalkIn.getTables().getOid());
-        assertThat(savedWalkIn.getTables().isEmpty()).isFalse();
+        assertThat(savedWalkIn.getTables().getOid()).isNotEqualTo(savedTables.getOid());
     }
 
     @Test
