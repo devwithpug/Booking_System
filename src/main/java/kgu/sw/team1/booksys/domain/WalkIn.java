@@ -1,11 +1,15 @@
 package kgu.sw.team1.booksys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "walk_in")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class WalkIn implements Booking{
     @Id
     @GeneratedValue
@@ -21,18 +25,19 @@ public class WalkIn implements Booking{
     @Column(name = "time")
     private LocalTime time;
 
-    @OneToOne(mappedBy = "walk_in")
-    private Tables table;
+    @OneToOne
+    @JoinColumn(name = "tables_oid")
+    private Tables tables;
 
     public WalkIn() {
     }
 
-    public WalkIn(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables table) {
+    public WalkIn(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables tables) {
         this.oid = oid;
         this.covers = covers;
         this.date = date;
         this.time = time;
-        this.table = table;
+        this.tables = tables;
     }
 
     public Integer getOid() {
@@ -84,9 +89,8 @@ public class WalkIn implements Booking{
         this.time = time;
     }
 
-    @Override
-    public Tables getTable() {
-        return table;
+    public Tables getTables() {
+        return tables;
     }
 
     @Override
@@ -94,7 +98,7 @@ public class WalkIn implements Booking{
     }
 
     @Override
-    public void setTable(Tables table) {
-        this.table = table;
+    public void setTables(Tables table) {
+        this.tables = table;
     }
 }

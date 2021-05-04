@@ -66,7 +66,7 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTable(table);
+        reservation.setTables(table);
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
@@ -98,7 +98,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTable(table);
+        walkIn.setTables(table);
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
         // then
@@ -154,30 +154,45 @@ class JpaRepositoryTest {
     }
 
     @Test
-    void 고객의_예약_찾기() {
+    void 예약_번호로_예약_찾기() {
         // given
-        Customer customer = new Customer();
-        customer.setName("c1");
-        customer.setPhoneNumber("010-1234-5678");
-
+        Customer customer = customerRepository.save(new Customer());
         Tables table = new Tables();
         table.setNumber(10);
-        table.setPlaces(1);
+        table = tablesRepository.save(table);
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTable(table);
-        // when
-        customerRepository.save(customer);
-        tablesRepository.save(table);
+        reservation.setTables(table);
         Reservation savedReservation = reservationRepository.save(reservation);
+        // when
+        Reservation result = reservationRepository.findById(savedReservation.getOid()).get();
         // then
-
-        Reservation result = reservationRepository.findByTime(savedReservation.getTime());
         assertThat(result).isEqualTo(savedReservation);
+    }
+
+    @Test
+    void 고객의_예약_찾기() {
+        // given
+        Customer customer = customerRepository.save(new Customer());
+        Tables table = new Tables();
+        table.setNumber(10);
+        table = tablesRepository.save(table);
+
+        Reservation reservation = new Reservation();
+        reservation.setCovers(4);
+        reservation.setTime(LocalTime.now());
+        reservation.setDate(LocalDate.now());
+        reservation.setCustomer(customer);
+        reservation.setTables(table);
+        Reservation savedReservation = reservationRepository.save(reservation);
+        // when
+        List<Reservation> result = reservationRepository.findByCustomerOid(customer.getOid());
+        // then
+        assertThat(result).contains(savedReservation);
     }
 
     @Test
@@ -191,7 +206,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTable(table);
+        walkIn.setTables(table);
         // when
         tablesRepository.save(table);
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
@@ -199,6 +214,31 @@ class JpaRepositoryTest {
         LocalTime time = savedWalkIn.getTime();
         WalkIn result = walkInRepository.findByTime(time);
         assertThat(result).isEqualTo(savedWalkIn);
+    }
+
+    @Test
+    void 사용중이_아닌_테이블_검색() {
+        // given
+        Tables tables1 = new Tables();
+        Tables tables2 = new Tables();
+        tables1.setEmpty(true);
+        tables2.setEmpty(true);
+        Tables savedTables1 = tablesRepository.save(tables1);
+        Tables savedTables2 = tablesRepository.save(tables2);
+
+        Customer customer = new Customer();
+        Customer savedCustomer = customerRepository.save(customer);
+        Reservation reservation = new Reservation();
+        savedTables2.toggle();
+        reservation.setTables(savedTables2);
+        reservation.setCustomer(savedCustomer);
+        reservationRepository.save(reservation);
+        // when
+        List<Tables> emptyTables = tablesRepository.findAllEmptyTables();
+        // then
+        for (Tables table : emptyTables) {
+            assertThat(table.isEmpty()).isTrue();
+        }
     }
 
     /**
@@ -223,13 +263,13 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTable(table);
+        reservation.setTables(table);
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
-        savedReservation.setTable(table2);
+        savedReservation.setTables(table2);
         Reservation result = reservationRepository.save(reservation);
-        assertThat(result.getTable()).isEqualTo(table2);
+        assertThat(result.getTables()).isEqualTo(table2);
     }
 
     @Test
@@ -251,7 +291,7 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTable(table);
+        reservation.setTables(table);
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
@@ -298,7 +338,7 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTable(table);
+        reservation.setTables(table);
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
@@ -332,7 +372,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTable(table);
+        walkIn.setTables(table);
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
         // then
@@ -340,4 +380,5 @@ class JpaRepositoryTest {
         Optional<WalkIn> result = walkInRepository.findById(savedWalkIn.getOid());
         assertThat(result).isEmpty();
     }
+    
 }

@@ -10,11 +10,11 @@ public interface Booking {
     LocalDate getDate() ;
     LocalTime getEndTime() ;
     LocalTime getTime() ;
-    Tables getTable() ;
+    Tables getTables() ;
 
     void setArrivalTime(LocalTime t) ;
     void setCovers(Integer c) ;
     void setDate(LocalDate d) ;
     void setTime(LocalTime t) ;
-    void setTable(Tables t) ;
+    void setTables(Tables t) ;
 }
