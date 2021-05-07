@@ -2,7 +2,7 @@
 
 도메인의 DTO 역할을 하는 클래스
 
-* CustomerParam
+* UserParam
 ```json
 {
   "id": "회원_아이디",

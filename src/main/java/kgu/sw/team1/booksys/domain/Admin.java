@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "customer")
+@Table(name = "admin")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
-public class Customer {
+public class Admin {
     @Id
     @GeneratedValue
     @Column(name = "oid")
@@ -18,20 +17,11 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "email")
-    private String email;
-
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Reservation reservation;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_oid")
     private User user;
 
-    public Customer() {
+    public Admin() {
     }
 
     public Integer getOid() {
@@ -50,35 +40,11 @@ public class Customer {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

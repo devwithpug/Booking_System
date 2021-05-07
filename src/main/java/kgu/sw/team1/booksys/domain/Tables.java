@@ -25,10 +25,10 @@ public class Tables {
     @Column(name = "empty")
     private Boolean empty;
 
-    @OneToOne(mappedBy = "tables")
+    @OneToOne(mappedBy = "tables", cascade = CascadeType.ALL)
     private Reservation reservation;
 
-    @OneToOne(mappedBy = "tables")
+    @OneToOne(mappedBy = "tables", cascade = CascadeType.ALL)
     private WalkIn walk_in;
 
     public Tables() {
