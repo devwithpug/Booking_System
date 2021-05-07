@@ -25,7 +25,7 @@ public class WalkIn implements Booking{
     @Column(name = "time")
     private LocalTime time;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tables_oid")
     private Tables tables;
 

@@ -1,0 +1,19 @@
+<!--테스트용 로그인 페이지입니다.-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}">
+    <title>Title</title>
+</head>
+<body>
+<form action="./" method="post">
+    <input type="text" name="id" placeholder="아이디"
+           class="form-control w300" required />
+    <input type="text" name="pw" placeholder="비밀번호"
+           class="form-control w300" required />
+    <button type="submit" class="btn btn-primary">로그인</button>
+</form>
+
+</body>
+</html>

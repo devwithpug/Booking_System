@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * 앞으로 구현할 컨트롤러들의 구성요소를 임의로 구현한 컨트롤러입니다.
- * 모든 데이터 송수신은 JSON 을 통해서 이루어집니다.
- * "스프링부트 JSON 파싱"을 검색해서 관련된 정보를 찾아보세요.
+ * JSON 으로 데이터 송수신하는 테스트 컨트롤러
  */
 @RestController
 @RequestMapping("/test")

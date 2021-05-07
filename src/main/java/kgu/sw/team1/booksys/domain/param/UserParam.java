@@ -1,13 +1,13 @@
 package kgu.sw.team1.booksys.domain.param;
 
-public class CustomerParam {
+public class UserParam {
     private String id;
     private String pw;
     private String name;
     private String phoneNumber;
     private String email;
 
-    public CustomerParam() {
+    public UserParam() {
     }
 
     public String getId() {

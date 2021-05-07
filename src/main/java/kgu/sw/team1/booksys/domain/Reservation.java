@@ -29,11 +29,11 @@ public class Reservation implements Booking{
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tables_oid")
     private Tables tables;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_oid")
     private Customer customer;
 
