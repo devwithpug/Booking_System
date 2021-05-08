@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<link rel="stylesheet" type="text/css" href="../../../../../assets/form.css">
+<link rel="stylesheet" href="../../../static/assets/form.css" th:href="@{/assets/form.css}">
 </head>
 <body>
 	<section class="container">
 		<h1>Log in</h1>
-		<form action="">
+		<form action="" th:action method="post">
 			<div class="int-area">
-				<input type="text" name="id" autocomplete="off" required>
 				<label for="id">Id</label>
+				<input type="text" id="id" name="id" autocomplete="off" required>
 			</div>
 			<div class="int-area">
-				<input type="password" name="pw" autocomplete="off" required>
 				<label for="pw">Password</label>
+				<input type="password" id="pw" name="pw" autocomplete="off" required>
 			</div>
 			<div class="btn-area">
 				<button type="submit">LOG IN</button>
 			</div>
 			<div class="caption">
-				<a href="">Sign up</a>
+				<a href="signUpForm.html" th:href="@{/user/signup}">Sign up</a>
 			</div>
 		</form>
 	</section>

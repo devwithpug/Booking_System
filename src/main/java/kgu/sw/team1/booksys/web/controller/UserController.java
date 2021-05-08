@@ -59,9 +59,9 @@ public class UserController {
      * 회원가입 요청
      */
     @PostMapping("/user/signup")
-    public String signUp(@RequestBody UserParam param) {
+    public String signUp(UserParam param) {
         userService.signUp(param);
-        return "basic/loginForm";
+        return "redirect:/";
     }
 
     /**
