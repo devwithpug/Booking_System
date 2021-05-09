@@ -25,8 +25,8 @@
         - [ ] 예약 알림
 
 
-* `RestaurantService.java`
+* `AdminService.java`
     + 추가 기능
-        - [ ] 테이블 추가/변경/삭제
+        - [x] 테이블 추가/변경/삭제
         - [ ] 통계(VIP/월 고객 수)
     

@@ -1,5 +1,11 @@
 ### 도메인 변경점
 
+### 추가
+
+* `Admin.java`
+* `User.java`
+* `Grade.java`
+
 ### 제거
 
 * `BookingObserver.java`
@@ -18,6 +24,10 @@
 * `Reservation.java`
 * `WalkIn.java`
 
-### 연관 관계
+### 연관 관계(21.05.09)
 
-`Customer` 1<->1 `Reservation` 1<->1 `Tables` 1<->1 `WalkIn`
+![image](https://user-images.githubusercontent.com/69145799/117565749-de679480-b0ed-11eb-9581-ea8c6fa70989.png)
+
+### TO-DO LIST
+
+* [ ] 일대다 or 다대일 관계로 변경(고객, 예약, 테이블 등)

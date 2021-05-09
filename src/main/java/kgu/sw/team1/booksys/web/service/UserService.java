@@ -11,6 +11,8 @@ import kgu.sw.team1.booksys.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -106,7 +108,7 @@ public class UserService {
     }
 
     /**
-     * 회원 확인
+     * 회원 등급 확인
      */
     public Grade getUserGrade(String id, String pw) {
         User user = userRepository.findByIdAndPw(id, pw);
@@ -115,16 +117,51 @@ public class UserService {
     }
 
     /**
-     * 회원 조회
+     * 고객 조회
      */
-    public Customer getCustomer(Integer customerOid) {
+    public Customer findOneCustomer(Integer customerOid) {
         return customerRepository.findById(customerOid).get();
+    }
+
+    /**
+     * 고객 아이디 조회
+     */
+    public Customer findOneCustomerById(String id) {
+        return customerRepository.findByUserId(id);
+    }
+
+    /**
+     * 모든 고객 조회
+     */
+    public List<Customer> findAllCustomers() {
+        return customerRepository.findAll();
     }
 
     /**
      * 관리자 조회
      */
-    public Admin getAdmin(Integer adminOid) {
+    public Admin findOneAdmin(Integer adminOid) {
         return adminRepository.findById(adminOid).get();
+    }
+
+    /**
+     * 모든 관리자 조회
+     */
+    public List<Admin> findAllAdmins() {
+        return adminRepository.findAll();
+    }
+
+    /**
+     * 회원 조회
+     */
+    public User findOneUser(Integer userOid) {
+        return userRepository.findById(userOid).get();
+    }
+
+    /**
+     * 모든 회원 조회
+     */
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }
