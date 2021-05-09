@@ -69,7 +69,7 @@ public class UserController {
      */
     @GetMapping("/user/info/{customerOid}")
     public String customerInfo(@PathVariable Integer customerOid, Model model) {
-        Customer customer = userService.getCustomer(customerOid);
+        Customer customer = userService.findOneCustomer(customerOid);
         model.addAttribute("customer", customer);
         return "";
     }

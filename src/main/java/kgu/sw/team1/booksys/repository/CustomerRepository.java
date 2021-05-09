@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer findByPhoneNumber(String phoneNumber);
     Customer findByUser(User user);
+    Customer findByUserId(String id);
 }
