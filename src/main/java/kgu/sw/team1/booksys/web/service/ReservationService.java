@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,11 +40,17 @@ public class ReservationService {
      */
     public Reservation makePreReservation(ReservationParam param) {
         Customer customer = customerRepository.findById(param.getCustomerOid()).get();
-        // TODO - 다중 테이블 예약
-        Tables tables = tablesRepository.findById(param.getTablesOid().get(0)).get();
-        if (tables.isEmpty()) tables.toggle();
 
-        Reservation reservation = new Reservation();
+        List<Tables> tables = new ArrayList<>();
+        for (Integer tablesOid : param.getTablesOid()) {
+            Tables table = tablesRepository.findById(tablesOid).get();
+            if (table.isEmpty()) table.toggle();
+//            table.setReservation(List.of(reservation));
+            tablesRepository.save(table);
+            tables.add(table);
+        }
+
+        Reservation reservation = reservationRepository.save(new Reservation());
         reservation.setCustomer(customer);
         reservation.setTables(tables);
         reservation.setDate(LocalDate.parse(param.getDate()));
@@ -62,11 +69,18 @@ public class ReservationService {
         if (tables.isEmpty()) tables.toggle();
 
         WalkIn walkIn = new WalkIn();
-        walkIn.setTables(tables);
+        walkIn.setTables(List.of(tables));
         walkIn.setDate(LocalDate.parse(param.getDate()));
         walkIn.setTime(LocalTime.parse(param.getTime()));
         walkIn.setCovers(param.getCovers());
         return walkInRepository.save(walkIn);
+    }
+
+    /**
+     * 단일 예약 조회
+     */
+    public Reservation findOneReservation(Integer reservationOid) {
+        return reservationRepository.findById(reservationOid).get();
     }
 
     /**
@@ -79,8 +93,8 @@ public class ReservationService {
     /**
      * 회원 예약 조회
      */
-    public List<Reservation> findCustomerReservations(Integer customerOid) {
-        return reservationRepository.findByCustomerOid(customerOid);
+    public Reservation findCustomerReservation(Customer customer) {
+        return reservationRepository.findByCustomer(customer);
     }
 
     /**
@@ -88,12 +102,8 @@ public class ReservationService {
      */
     public void cancelReservation(Integer reservationOid) {
         Reservation reservation = reservationRepository.findById(reservationOid).get();
-        Tables tables = reservation.getTables();
+        List<Tables> tables = reservation.getTables();
         reservationRepository.delete(reservation);
-        if (reservationRepository.findByTablesOid(tables.getOid()).size() == 0) {
-            tables.toggle();
-            tablesRepository.save(tables);
-        }
     }
 
     /**
@@ -101,12 +111,8 @@ public class ReservationService {
      */
     public void finishWalkIn(Integer walkInOid) {
         WalkIn walkIn = walkInRepository.findById(walkInOid).get();
-        Tables tables = walkIn.getTables();
+        List<Tables> tables = walkIn.getTables();
         walkInRepository.delete(walkIn);
-        if (reservationRepository.findByTablesOid(tables.getOid()).size() == 0) {
-            tables.toggle();
-            tablesRepository.save(tables);
-        }
     }
 
     /**
@@ -125,9 +131,13 @@ public class ReservationService {
      */
     public Reservation modifyReservationTable(Integer reservationOid, Integer... tablesOid) {
         Reservation reservation = reservationRepository.findById(reservationOid).get();
-        // TODO - 다중 테이블 변경
-        Tables tables = tablesRepository.findById(tablesOid[0]).get();
-        reservation.setTables(tables);
+
+        List<Tables> list = new ArrayList<>();
+        for (Integer oid : tablesOid) {
+            Tables tables = tablesRepository.findById(oid).get();
+            list.add(tables);
+        }
+        reservation.setTables(list);
 
         return reservationRepository.save(reservation);
     }
@@ -147,7 +157,7 @@ public class ReservationService {
      */
     public boolean isBookable(Integer tablesOid, String date, String time) {
         Tables tables = tablesRepository.findById(tablesOid).get();
-        List<Reservation> tablesReservations = reservationRepository.findByTablesOid(tables.getOid());
+        List<Reservation> tablesReservations = reservationRepository.findByTables(tables);
 
         if (tables.isEmpty()) return true;
         for (Reservation reservation : tablesReservations) {
@@ -171,8 +181,6 @@ public class ReservationService {
     }
 
 
-    // TODO - 다중 테이블 예약 / 변경
     // TODO - 현장 대기리스트
-    // TODO - 테이블 자동 배정
     // TODO - 예약 알림
 }

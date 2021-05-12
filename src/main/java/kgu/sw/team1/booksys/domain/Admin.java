@@ -1,6 +1,7 @@
 package kgu.sw.team1.booksys.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Admin {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_oid")
+    @JsonIgnore
     private User user;
 
     public Admin() {
