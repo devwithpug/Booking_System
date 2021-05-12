@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reservation")
@@ -29,25 +31,20 @@ public class Reservation implements Booking{
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tables_oid")
-    private Tables tables;
+    @ManyToMany
+    @JoinTable(
+            name = "reservation_tables",
+            joinColumns = @JoinColumn(name = "reservation_oid"),
+            inverseJoinColumns = @JoinColumn(name = "tables_oid")
+    )
+    private List<Tables> tables;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_oid")
     private Customer customer;
 
     public Reservation() {
-    }
-
-    public Reservation(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables tables, Customer customer) {
-        this.oid = oid;
-        this.covers = covers;
-        this.date = date;
-        this.time = time;
-        this.arrivalTime = null;
-        this.tables = tables;
-        this.customer = customer;
+        tables = new ArrayList<>();
     }
 
     public Integer getOid() {
@@ -104,12 +101,20 @@ public class Reservation implements Booking{
         this.arrivalTime = arrivalTime;
     }
 
-    public Tables getTables() {
+    @Override
+    public List<Tables> getTables() {
         return tables;
     }
 
-    public void setTables(Tables table) {
-        this.tables = table;
+    @Override
+    public void setTables(List<Tables> tables) {
+        if (tables != null) {
+            List<Tables> list = new ArrayList<>();
+            for (Tables table : tables) {
+                list.add(table);
+            }
+            this.tables = list;
+        }
     }
 
     public Customer getCustomer() {

@@ -34,19 +34,21 @@ class ReservationServiceTest {
         // given
         Customer savedCustomer = customerRepository.save(new Customer());
         Tables savedTables = tablesRepository.save(new Tables());
+        Tables savedTables2 = tablesRepository.save(new Tables());
 
         ReservationParam param = new ReservationParam();
         param.setCustomerOid(savedCustomer.getOid());
-        param.setTablesOid(List.of(savedTables.getOid()));
+        param.setTablesOid(List.of(savedTables.getOid(), savedTables2.getOid()));
         param.setCovers(2);
         param.setDate("2021-07-30");
         param.setTime("15:30:00");
         // when
         Reservation savedReservation = reservationService.makePreReservation(param);
         // then
-        List<Reservation> result = reservationService.findCustomerReservations(savedCustomer.getOid());
-        assertThat(result.get(0).getOid()).isEqualTo(savedReservation.getOid());
+        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(result.getOid()).isEqualTo(savedReservation.getOid());
         assertThat(savedReservation.getTables().isEmpty()).isFalse();
+        assertThat(savedReservation.getTables()).hasSize(2);
     }
 
     @Test
@@ -63,7 +65,7 @@ class ReservationServiceTest {
         // when
         WalkIn savedWalkIn = reservationService.makeOnSiteReservation(param);
         // then
-        assertThat(savedWalkIn.getTables().getOid()).isNotEqualTo(savedTables.getOid());
+        assertThat(savedWalkIn.getTables().get(0).getOid()).isNotEqualTo(savedTables.getOid());
     }
 
     @Test
@@ -83,8 +85,8 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         Reservation changed = reservationService.modifyReservationTable(savedReservation.getOid(), savedNewTables.getOid());
         // then
-        List<Reservation> result = reservationService.findCustomerReservations(savedCustomer.getOid());
-        assertThat(result.get(0).getTables().getOid()).isEqualTo(changed.getTables().getOid());
+        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(result.getTables().get(0).getOid()).isEqualTo(changed.getTables().get(0).getOid());
     }
 
     @Test
@@ -105,9 +107,9 @@ class ReservationServiceTest {
         String time = "16:00:00";
         Reservation changed = reservationService.modifyReservationTime(savedReservation.getOid(), date, time);
         // then
-        List<Reservation> result = reservationService.findCustomerReservations(savedCustomer.getOid());
-        assertThat(result.get(0).getDate()).isEqualTo(date);
-        assertThat(result.get(0).getTime()).isEqualTo(time);
+        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(result.getDate()).isEqualTo(date);
+        assertThat(result.getTime()).isEqualTo(time);
     }
 
     @Test
@@ -126,8 +128,8 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         reservationService.cancelReservation(savedReservation.getOid());
         // then
-        List<Reservation> result = reservationService.findCustomerReservations(savedCustomer.getOid());
-        assertThat(result).isEmpty();
+        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(result).isNull();
     }
 
     @Test

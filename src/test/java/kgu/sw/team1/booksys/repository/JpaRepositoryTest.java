@@ -56,22 +56,34 @@ class JpaRepositoryTest {
         Customer customer = new Customer();
         customer.setName("c1");
         customer.setPhoneNumber("010-1234-5678");
+        customer = customerRepository.save(customer);
 
         Tables table = new Tables();
         table.setNumber(10);
-        table.setPlaces(1);
+        Tables table2 = new Tables();
+        table2.setNumber(11);
+        table = tablesRepository.save(table);
+        table2 = tablesRepository.save(table2);
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table, table2));
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
         Reservation result = reservationRepository.findById(savedReservation.getOid()).get();
+        Reservation result2 = reservationRepository.findByCustomer(customer);
+        Reservation result3 = reservationRepository.findByTables(table).get(0);
+
         assertThat(result).isEqualTo(savedReservation);
+        assertThat(result2).isEqualTo(savedReservation);
+        assertThat(result3).isEqualTo(savedReservation);
+        assertThat(result.getTables()).contains(table, table2);
+        assertThat(result2.getTables()).contains(table, table2);
+        assertThat(result3.getTables()).contains(table, table2);
     }
 
     @Test
@@ -98,7 +110,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTables(table);
+        walkIn.setTables(List.of(table));
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
         // then
@@ -166,7 +178,7 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table));
         Reservation savedReservation = reservationRepository.save(reservation);
         // when
         Reservation result = reservationRepository.findById(savedReservation.getOid()).get();
@@ -187,12 +199,12 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table));
         Reservation savedReservation = reservationRepository.save(reservation);
         // when
-        List<Reservation> result = reservationRepository.findByCustomerOid(customer.getOid());
+        Reservation result = reservationRepository.findByCustomer(customer);
         // then
-        assertThat(result).contains(savedReservation);
+        assertThat(result).isEqualTo(savedReservation);
     }
 
     @Test
@@ -206,7 +218,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTables(table);
+        walkIn.setTables(List.of(table));
         // when
         tablesRepository.save(table);
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
@@ -230,7 +242,7 @@ class JpaRepositoryTest {
         Customer savedCustomer = customerRepository.save(customer);
         Reservation reservation = new Reservation();
         savedTables2.toggle();
-        reservation.setTables(savedTables2);
+        reservation.setTables(List.of(savedTables2));
         reservation.setCustomer(savedCustomer);
         reservationRepository.save(reservation);
         // when
@@ -239,6 +251,19 @@ class JpaRepositoryTest {
         for (Tables table : emptyTables) {
             assertThat(table.isEmpty()).isTrue();
         }
+    }
+
+    @Test
+    void 테이블_번호로_예약_찾기() {
+        Tables tables = tablesRepository.save(new Tables());
+        Reservation reservation1 = new Reservation();
+        Reservation reservation2 = new Reservation();
+        tables.setReservation(List.of(reservation1, reservation2));
+        Reservation saved1 = reservationRepository.save(reservation1);
+        Reservation saved2 = reservationRepository.save(reservation2);
+
+        List<Reservation> result = reservationRepository.findByTables(tables);
+        assertThat(result).contains(reservation1, reservation2);
     }
 
     /**
@@ -257,19 +282,21 @@ class JpaRepositoryTest {
         Tables table2 = new Tables();
         table2.setNumber(11);
         table2.setPlaces(1);
+        table = tablesRepository.save(table);
+        table2 = tablesRepository.save(table2);
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table));
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
-        savedReservation.setTables(table2);
+        savedReservation.setTables(List.of(table2));
         Reservation result = reservationRepository.save(reservation);
-        assertThat(result.getTables()).isEqualTo(table2);
+        assertThat(result.getTables()).containsExactly(table2);
     }
 
     @Test
@@ -291,7 +318,7 @@ class JpaRepositoryTest {
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table));
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
@@ -328,17 +355,19 @@ class JpaRepositoryTest {
         Customer customer = new Customer();
         customer.setName("c1");
         customer.setPhoneNumber("010-1234-5678");
+        customer = customerRepository.save(customer);
 
         Tables table = new Tables();
         table.setNumber(10);
         table.setPlaces(1);
+        table = tablesRepository.save(table);
 
         Reservation reservation = new Reservation();
         reservation.setCovers(4);
         reservation.setTime(LocalTime.now());
         reservation.setDate(LocalDate.now());
         reservation.setCustomer(customer);
-        reservation.setTables(table);
+        reservation.setTables(List.of(table));
         // when
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
@@ -372,7 +401,7 @@ class JpaRepositoryTest {
         walkIn.setCovers(1);
         walkIn.setTime(LocalTime.now());
         walkIn.setDate(LocalDate.now());
-        walkIn.setTables(table);
+        walkIn.setTables(List.of(table));
         // when
         WalkIn savedWalkIn = walkInRepository.save(walkIn);
         // then

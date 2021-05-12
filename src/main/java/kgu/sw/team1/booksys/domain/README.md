@@ -30,4 +30,4 @@
 
 ### TO-DO LIST
 
-* [ ] 일대다 or 다대일 관계로 변경(고객, 예약, 테이블 등)
+* [x] 다대다 관계로 변경(WalkIn, Reservation, Tables)

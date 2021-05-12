@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "walk_in")
@@ -25,19 +27,16 @@ public class WalkIn implements Booking{
     @Column(name = "time")
     private LocalTime time;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tables_oid")
-    private Tables tables;
+    @ManyToMany
+    @JoinTable(
+            name = "walk_in_tables",
+            joinColumns = @JoinColumn(name = "walk_in_oid"),
+            inverseJoinColumns = @JoinColumn(name = "tables_oid")
+    )
+    private List<Tables> tables;
 
     public WalkIn() {
-    }
-
-    public WalkIn(Integer oid, Integer covers, LocalDate date, LocalTime time, Tables tables) {
-        this.oid = oid;
-        this.covers = covers;
-        this.date = date;
-        this.time = time;
-        this.tables = tables;
+        tables = new ArrayList<>();
     }
 
     public Integer getOid() {
@@ -89,16 +88,19 @@ public class WalkIn implements Booking{
         this.time = time;
     }
 
-    public Tables getTables() {
-        return tables;
-    }
+
 
     @Override
     public void setArrivalTime(LocalTime t) {
     }
 
     @Override
-    public void setTables(Tables table) {
-        this.tables = table;
+    public List<Tables> getTables() {
+        return tables;
+    }
+
+    @Override
+    public void setTables(List<Tables> tables) {
+        this.tables = tables;
     }
 }

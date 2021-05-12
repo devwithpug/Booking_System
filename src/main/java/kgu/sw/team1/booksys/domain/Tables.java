@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -25,24 +27,18 @@ public class Tables {
     @Column(name = "empty")
     private Boolean empty;
 
-    @OneToOne(mappedBy = "tables", cascade = CascadeType.ALL)
-    private Reservation reservation;
+    @ManyToMany(mappedBy = "tables", cascade = CascadeType.ALL)
+    private List<Reservation> reservation;
 
-    @OneToOne(mappedBy = "tables", cascade = CascadeType.ALL)
-    private WalkIn walk_in;
+    @ManyToMany(mappedBy = "tables", cascade = CascadeType.ALL)
+    private List<WalkIn> walk_in;
 
     public Tables() {
         empty = true;
+        reservation = new ArrayList<>();
+        walk_in = new ArrayList<>();
     }
 
-    public Tables(Integer oid, Integer number, Integer places, Boolean empty, Reservation reservation, WalkIn walk_in) {
-        this.oid = oid;
-        this.number = number;
-        this.places = places;
-        this.empty = empty;
-        this.reservation = reservation;
-        this.walk_in = walk_in;
-    }
 
     public Integer getOid() {
         return oid;
@@ -80,19 +76,25 @@ public class Tables {
         this.places = places;
     }
 
-    public Reservation getReservation() {
+    public List<Reservation> getReservation() {
         return reservation;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setReservation(List<Reservation> reservation) {
+        if (reservation != null) {
+            List<Reservation> list = new ArrayList<>();
+            for (Reservation res : reservation) {
+                list.add(res);
+            }
+            this.reservation = list;
+        }
     }
 
-    public WalkIn getWalk_in() {
+    public List<WalkIn> getWalk_in() {
         return walk_in;
     }
 
-    public void setWalk_in(WalkIn walk_in) {
+    public void setWalk_in(List<WalkIn> walk_in) {
         this.walk_in = walk_in;
     }
 }
