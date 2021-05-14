@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -25,12 +26,14 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     private TablesRepository tablesRepository;
     private WalkInRepository walkInRepository;
+    private List<WalkInParam> waitingList;
 
     public ReservationService(CustomerRepository customerRepository, ReservationRepository reservationRepository, TablesRepository tablesRepository, WalkInRepository walkInRepository) {
         this.customerRepository = customerRepository;
         this.reservationRepository = reservationRepository;
         this.tablesRepository = tablesRepository;
         this.walkInRepository = walkInRepository;
+        this.waitingList = new ArrayList<>();
     }
 
     /**
@@ -45,7 +48,6 @@ public class ReservationService {
         for (Integer tablesOid : param.getTablesOid()) {
             Tables table = tablesRepository.findById(tablesOid).get();
             if (table.isEmpty()) table.toggle();
-//            table.setReservation(List.of(reservation));
             tablesRepository.save(table);
             tables.add(table);
         }
@@ -62,18 +64,47 @@ public class ReservationService {
     /**
      * 예약 현장 등록
      */
-    public WalkIn makeOnSiteReservation(WalkInParam param) {
-        List<Tables> emptyTables = tablesRepository.findAllEmptyTables();
-        int target = (int) (Math.random() * emptyTables.size());
-        Tables tables = tablesRepository.findById(emptyTables.get(target).getOid()).get();
-        if (tables.isEmpty()) tables.toggle();
+    public List<WalkIn> makeOnSiteReservation(WalkInParam param) {
+        List<WalkIn> result = new ArrayList<>();
+        List<Tables> emptyTables = findAllBookableTables(param.getDate(), param.getTime());
+        Collections.shuffle(emptyTables);
+        waitingList.add(param);
+        while (!waitingList.isEmpty() && !emptyTables.isEmpty()) {
+            Tables tables = emptyTables.remove(0);
+            if (tables.isEmpty()) tables.toggle();
+            WalkIn walkIn = WalkIn.createInstance(waitingList.remove(0), tables);
+            walkIn.setTables(List.of(tables));
+            WalkIn savedWalkIn = walkInRepository.save(walkIn);
+            result.add(savedWalkIn);
+        }
+        return result;
+    }
 
-        WalkIn walkIn = new WalkIn();
-        walkIn.setTables(List.of(tables));
-        walkIn.setDate(LocalDate.parse(param.getDate()));
-        walkIn.setTime(LocalTime.parse(param.getTime()));
-        walkIn.setCovers(param.getCovers());
-        return walkInRepository.save(walkIn);
+    /**
+     * 예약 가능한 모든 테이블 조회
+     */
+    public List<Tables> findAllBookableTables(String date, String time) {
+        List<Tables> result = new ArrayList<>();
+        for (Tables tables : tablesRepository.findAll()) {
+            if (isBookable(tables.getOid(), date, time)) {
+                result.add(tables);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 모든 현장 예약 조회
+     */
+    public List<WalkIn> findAllWalkIns() {
+        return walkInRepository.findAll();
+    }
+
+    /**
+     * 현장 예약 대기리스트 조회
+     */
+    public List<WalkInParam> getWaitingList() {
+        return waitingList;
     }
 
     /**
@@ -157,20 +188,27 @@ public class ReservationService {
      */
     public boolean isBookable(Integer tablesOid, String date, String time) {
         Tables tables = tablesRepository.findById(tablesOid).get();
-        List<Reservation> tablesReservations = reservationRepository.findByTables(tables);
+        List<Reservation> tablesReservations = reservationRepository.findAllByTables(tables);
+        List<WalkIn> tablesWalkIns = walkInRepository.findAllByTables(tables);
 
         if (tables.isEmpty()) return true;
+        for (WalkIn walkIn : tablesWalkIns) {
+            if (compare(date, time, walkIn.getDate(), walkIn.getTime(), walkIn.getEndTime())) return false;
+        }
         for (Reservation reservation : tablesReservations) {
-            if (reservation.getDate().isEqual(LocalDate.parse(date))) {
-                LocalTime reservationStart = reservation.getTime();
-                LocalTime reservationEnd = reservation.getEndTime();
-                LocalTime tempStart = LocalTime.parse(time);
-                LocalTime tempEnd = tempStart.plusHours(2);
-                if (reservationStart.isBefore(tempStart) && reservationEnd.isAfter(tempStart)) return false;
-                if (reservationStart.isBefore(tempEnd) && reservationEnd.isAfter(tempEnd)) return false;
-            }
+            if (compare(date, time, reservation.getDate(), reservation.getTime(), reservation.getEndTime())) return false;
         }
         return true;
+    }
+
+    private boolean compare(String date, String time, LocalDate date2, LocalTime time2, LocalTime endTime) {
+        if (date2.isEqual(LocalDate.parse(date))) {
+            LocalTime tempStart = LocalTime.parse(time);
+            LocalTime tempEnd = tempStart.plusHours(2);
+            if (time2.isBefore(tempStart) && endTime.isAfter(tempStart)) return true;
+            return time2.isBefore(tempEnd) && endTime.isAfter(tempEnd);
+        }
+        return false;
     }
 
     /**
@@ -180,7 +218,5 @@ public class ReservationService {
         return tablesRepository.findAllEmptyTables().size() > 0;
     }
 
-
-    // TODO - 현장 대기리스트
     // TODO - 예약 알림
 }

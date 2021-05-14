@@ -1,6 +1,6 @@
-### 엔티티 관계도(21.05.09)
+### 엔티티 관계도(21.05.14)
 
-![image](https://user-images.githubusercontent.com/69145799/117565749-de679480-b0ed-11eb-9581-ea8c6fa70989.png)
+![image](https://user-images.githubusercontent.com/69145799/118272943-4b1fcc00-b4fe-11eb-896b-99b03be5f48c.png)
 
 ### 리포지토리 TO-DO LIST
 
