@@ -1,12 +1,14 @@
 package kgu.sw.team1.booksys.web.controller;
 
 import kgu.sw.team1.booksys.domain.Reservation;
+import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.User;
 import kgu.sw.team1.booksys.web.service.ReservationService;
 import kgu.sw.team1.booksys.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class ReservationController {
     /**
      * 메인 페이지
      */
-    @GetMapping("/reservation/main")
+    @GetMapping("/main")
     public String main(User user, Model model) {
         List<Reservation> allReservations = reservationService.findAllReservations();
         model.addAttribute("user", user);
@@ -32,4 +34,17 @@ public class ReservationController {
         return "basic/reservation/main";
     }
 
+    /**
+     * 사전 예약 페이지
+     */
+    @GetMapping("/reservation/{date}/{time}")
+    public String reservationForm(User user, String date, String time, Model model) {
+        List<Tables> allBookableTables = reservationService.findAllBookableTables(date, time);
+        model.addAttribute("user", user);
+        model.addAttribute("allBookableTables", allBookableTables);
+        return "basic/reservation/reservationForm";
+    }
+
+    // TODO - [POST] 사전 예약 요청
+    // TODO - [GET] 예약 완료
 }

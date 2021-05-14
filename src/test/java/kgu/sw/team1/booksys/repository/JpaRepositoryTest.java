@@ -76,7 +76,7 @@ class JpaRepositoryTest {
         // then
         Reservation result = reservationRepository.findById(savedReservation.getOid()).get();
         Reservation result2 = reservationRepository.findByCustomer(customer);
-        Reservation result3 = reservationRepository.findByTables(table).get(0);
+        Reservation result3 = reservationRepository.findAllByTables(table).get(0);
 
         assertThat(result).isEqualTo(savedReservation);
         assertThat(result2).isEqualTo(savedReservation);
@@ -258,11 +258,12 @@ class JpaRepositoryTest {
         Tables tables = tablesRepository.save(new Tables());
         Reservation reservation1 = new Reservation();
         Reservation reservation2 = new Reservation();
-        tables.setReservation(List.of(reservation1, reservation2));
-        Reservation saved1 = reservationRepository.save(reservation1);
-        Reservation saved2 = reservationRepository.save(reservation2);
+        reservation1.setTables(List.of(tables));
+        reservation2.setTables(List.of(tables));
+        reservationRepository.save(reservation1);
+        reservationRepository.save(reservation2);
 
-        List<Reservation> result = reservationRepository.findByTables(tables);
+        List<Reservation> result = reservationRepository.findAllByTables(tables);
         assertThat(result).contains(reservation1, reservation2);
     }
 
