@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Profile Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../../static/assets/user.css" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarColor02" aria-controls="navbarColor02"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor02">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item"><a class="nav-link active" href="#">Home
+						<span class="visually-hidden">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Features</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">Action</a> <a
+							class="dropdown-item" href="#">Another action</a> <a
+							class="dropdown-item" href="#">Something else here</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Separated link</a>
+					</div></li>
+			</ul>
+			<form class="d-flex">
+				<input class="form-control me-sm-2" type="text" placeholder="Search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</nav>
+
+<body>
+	<div class="container">
+		<div class="team-single">
+			<div class="row">
+				<div class="col-lg-4 col-md-5 xs-margin-30px-bottom">
+					<div class="team-single-img">
+						<img src="../../../static/assets/your-picture.png" alt="">
+					</div>
+					<div
+						class="bg-light-gray padding-30px-all md-padding-25px-all sm-padding-20px-all text-center">
+						<h4 class="margin-10px-bottom font-size24 md-font-size22 sm-font-size20 font-weight-600">
+							<span>홍길동</span>님
+						</h4>
+						<div class="grade">
+							<i class="fas fa-star"></i>
+							<p class="sm-width-95 sm-margin-auto">FAMILY</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-8 col-md-7">
+					<div class="team-single-text padding-50px-left sm-no-padding-left">
+						<div class="profile-title">
+							<h4 class="font-size30 mt-3">회원정보</h4>
+						</div>
+						<div class="btn-area">
+							<button type="button" class="btn btn-info float-right">수정하기</button>
+						</div>
+						<div class="contact-info-section margin-50px-tb">
+							<ul class="list-style9">
+								<li>
+
+									<div class="row">
+										<div class="col-md-5 col-5">
+											<i class="fas fa-graduation-cap text-color"></i> <strong
+												class="margin-10px-left text-color">ID:</strong>
+										</div>
+										<div class="col-md-7 col-7">
+											<p>아이디</p>
+										</div>
+									</div>
+
+								</li>
+								<li>
+
+									<div class="row">
+										<div class="col-md-5 col-5">
+											<i class="fas fa-mobile-alt text-color"></i> <strong
+												class="margin-10px-left xs-margin-four-left text-color">Phone:</strong>
+										</div>
+										<div class="col-md-7 col-7">
+											<p>010-0000-0000</p>
+										</div>
+									</div>
+
+								</li>
+								<li>
+									<div class="row">
+										<div class="col-md-5 col-5">
+											<i class="fas fa-envelope text-color"></i> <strong
+												class="margin-10px-left xs-margin-four-left text-color">Email:</strong>
+										</div>
+										<div class="col-md-7 col-7">
+											<p>addyour@emailhere</n>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 나의 예약 확인 -->
+		<h5 class="font-size30 mb-5">예약 내역</h5>
+			<div class="card-body">
+						<table class="table table-striped" style="width:100%">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>예약자명</th>
+									<th>날짜</th>
+									<th>시간</th>
+									<th>좌석번호</th>
+									<th>인원수</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>홍길동</td>
+									<td>2021-05-11</td>
+									<td>18:00 - 19:00</td>
+									<td>5</td>
+									<td>3</td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+		<div class="sm-no-margin">
+			
+		</div>
+	</div>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<script src="https://kit.fontawesome.com/cfe4f52abc.js" crossorigin="anonymous"></script>
+</body>
+</html>
