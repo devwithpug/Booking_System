@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Profile Edit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../../../static/assets/userEdit.css" th:href="@{/assets/userEdit.css}">
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarColor02" aria-controls="navbarColor02"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarColor02">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item"><a class="nav-link active" href="#">Home
+						<span class="visually-hidden">(current)</span>
+				</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Features</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">Action</a> <a
+							class="dropdown-item" href="#">Another action</a> <a
+							class="dropdown-item" href="#">Something else here</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Separated link</a>
+					</div></li>
+			</ul>
+			<form class="d-flex">
+				<input class="form-control me-sm-2" type="text" placeholder="Search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</nav>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="edit-title">
+							<h4>회원정보 수정</h4>
+						</div>
+						<div class="row pv-lg">
+							<div class="col-lg-3"></div>
+							<div class="col-lg-7">
+								<form class="form-horizontal ng-pristine ng-valid">
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact1">이름</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="inputContact1" type="text"
+												placeholder="" value="Audrey Hunt">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact2">아이디</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="inputContact2" type="email"
+												value="mail@example.com">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact3">비밀번호</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="inputContact3" type="text"
+												value="(123) 465 789">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact4">비밀번호
+											확인</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="inputContact4" type="text"
+												value="(12) 123 987 465">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact5">이메일</label>
+										<div class="col-sm-10">
+											<input class="form-control" id="inputContact5" type="text"
+												value="addYour@email">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label" for="inputContact6">전화번호</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" id="inputContact6" row="4">010-0000-0000</textarea>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-sm-offset-6 col-sm-6">
+											<button class="btn btn-info" type="submit">수정하기</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
