@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -25,8 +27,8 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Reservation reservation;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Reservation> reservation;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_oid")
@@ -34,6 +36,7 @@ public class Customer {
     private User user;
 
     public Customer() {
+        reservation = new ArrayList<>();
     }
 
     public Integer getOid() {
@@ -60,11 +63,11 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public Reservation getReservation() {
+    public List<Reservation> getReservation() {
         return reservation;
     }
 
-    public void setReservation(Reservation reservation) {
+    public void setReservation(List<Reservation> reservation) {
         this.reservation = reservation;
     }
 

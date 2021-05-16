@@ -70,26 +70,51 @@ public class UserController {
     @GetMapping("/user/info/{customerOid}")
     public String customerInfo(@PathVariable Integer customerOid, Model model) {
         Customer customer = userService.findOneCustomer(customerOid);
+        List<Reservation> reservations = reservationService.findCustomerReservation(customer);
         model.addAttribute("customer", customer);
-        return "";
+        model.addAttribute("user", customer.getUser());
+        model.addAttribute("reservations", reservations);
+        return "basic/user/user";
     }
 
     /**
-     * 회원정보 변경 요청
+     * 회원정보 수정 페이지
      */
-    @PostMapping("/user/info/{customerOid}")
-    public String modifyCustomer(@PathVariable Integer customerOid, @RequestBody UserParam param, Model model) {
-        Customer customer = userService.modify(customerOid, param);
+    @GetMapping("user/info/{customerOid}/edit")
+    public String modifyCustomerForm(@PathVariable Integer customerOid, Model model) {
+        Customer customer = userService.findOneCustomer(customerOid);
         model.addAttribute("customer", customer);
-        return "redirect:";
+        model.addAttribute("user", customer.getUser());
+        return "basic/user/userEdit";
+    }
+
+    /**
+     * 회원정보 수정 요청
+     */
+    @PostMapping("user/info/{customerOid}/edit")
+    public String modifyCustomer(@PathVariable Integer customerOid, UserParam param) {
+        userService.modify(customerOid, param);
+        return "redirect:/user/info/{customerOid}";
+    }
+
+    /**
+     * 회원 탈퇴 페이지
+     */
+    @GetMapping("user/info/{customerOid}/delete")
+    public String deleteAccountForm(@PathVariable Integer customerOid, Model model) {
+        Customer customer = userService.findOneCustomer(customerOid);
+        model.addAttribute("customer", customer);
+        model.addAttribute("user", customer.getUser());
+        return "basic/user/userDelete";
     }
 
     /**
      * 회원 탈퇴 요청
      */
-    @GetMapping("/user/delete/{userOid}")
-    public String deleteAccount(@PathVariable Integer userOid) {
-        userService.deleteAccount(userOid);
-        return "basic/user/loginForm";
+    @PostMapping("user/info/{customerOid}/delete")
+    public String deleteAccount(@PathVariable Integer customerOid) {
+        Customer customer = userService.findOneCustomer(customerOid);
+        userService.deleteAccount(customer.getUser().getOid());
+        return "redirect:/";
     }
 }

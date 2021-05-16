@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <title>Profile Edit</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="http://netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../../../static/assets/userEdit.css" th:href="@{/assets/userEdit.css}">
+<link th:href="@{/assets/_bootstrap.min.css}" href="../../../static/assets/_bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/assets/userEdit.css}" href="../../../static/assets/userEdit.css" rel="stylesheet">
+<script th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js" type="text/javascript"></script>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container-fluid">
@@ -37,7 +38,9 @@
 					</div></li>
 			</ul>
 			<form class="d-flex">
-				<input class="form-control me-sm-2" type="text" placeholder="Search">
+				<label>
+					<input class="form-control me-sm-2" type="text" placeholder="Search">
+				</label>
 				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 			</form>
 		</div>
@@ -53,65 +56,92 @@
 						<div class="edit-title">
 							<h4>회원정보 수정</h4>
 						</div>
-						<div class="row pv-lg">
-							<div class="col-lg-3"></div>
-							<div class="col-lg-7">
-								<form class="form-horizontal ng-pristine ng-valid">
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact1">이름</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="inputContact1" type="text"
-												placeholder="" value="Audrey Hunt">
+						<form action="" th:action method="post">
+							<div class="row pv-lg">
+								<div class="col-lg-3"></div>
+								<div class="col-lg-7">
+									<form class="form-horizontal ng-pristine ng-valid">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="name">이름</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="name" name="name" type="text"
+													   placeholder="" th:value="${customer.name}" value="" readonly>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact2">아이디</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="inputContact2" type="email"
-												value="mail@example.com">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="id">아이디</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="id" name="id" type="text"
+													   th:value="${user.id}" value="idExample" readonly>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact3">비밀번호</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="inputContact3" type="text"
-												value="(123) 465 789">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="pw1">비밀번호</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="pw1" name="pw" type="password">
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact4">비밀번호
-											확인</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="inputContact4" type="text"
-												value="(12) 123 987 465">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="pw2">비밀번호 확인</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="pw2" type="password">
+												<span id="pwChk" style="font-size: x-small; "></span>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact5">이메일</label>
-										<div class="col-sm-10">
-											<input class="form-control" id="inputContact5" type="text"
-												value="addYour@email">
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="email">이메일</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="email" name="email" type="text"
+													   th:value="${customer.email}" value="addYour@email">
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-2 control-label" for="inputContact6">전화번호</label>
-										<div class="col-sm-10">
-											<textarea class="form-control" id="inputContact6" row="4">010-0000-0000</textarea>
+										<div class="form-group">
+											<label class="col-sm-2 control-label" for="phoneNumber">전화번호</label>
+											<div class="col-sm-10">
+												<input class="form-control" id="phoneNumber" name="phoneNumber" type="text"
+													   th:value="${customer.phoneNumber}" value="010-0000-0000">
+											</div>
 										</div>
-									</div>
 
-									<div class="form-group">
-										<div class="col-sm-offset-6 col-sm-6">
-											<button class="btn btn-info" type="submit">수정하기</button>
+										<div class="form-group">
+											<div class="offset-1 row">
+												<div class="col-4">
+													<button class="btn btn-info" id="button" type="submit" disabled="disabled">수정하기</button>
+												</div>
+												<div class="offset-2 col-4">
+													<button class="btn btn-danger" id="button2" type="button"
+															onclick="location.href='userDelete.html'"
+															th:onclick="|location.href='@{/user/info/{customerOid}/delete(customerOid=${customer.oid})}'|"
+															>회원탈퇴</button>
+												</div>
+											</div>
 										</div>
-									</div>
-								</form>
+									</form>
+								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(function () {
+			$('#pw1').keyup(function () {
+				$('#pwChk').html('');
+			});
+
+			$('#pw2').keyup(function () {
+				if ($('#pw1').val() !== $('#pw2').val()) {
+					$('#pwChk').html('비밀번호 일치하지 않음<br><br>');
+					$('#button').attr('disabled', true);
+				} else {
+					$('#pwChk').html('비밀번호 일치함<br><br>');
+					$('#button').attr('disabled', false);
+				}
+			});
+		});
+	</script>
+
 </body>
 </html>

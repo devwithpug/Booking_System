@@ -24,10 +24,11 @@
 * `Reservation.java`
 * `WalkIn.java`
 
-### 연관 관계(21.05.14)
+### 연관 관계(21.05.16)
 
-![image](https://user-images.githubusercontent.com/69145799/118272943-4b1fcc00-b4fe-11eb-896b-99b03be5f48c.png)
+![image](https://user-images.githubusercontent.com/69145799/118388633-9d78fe00-b660-11eb-8688-a044fdf7ab87.png)
 
 ### TO-DO LIST
 
 * [x] 다대다 관계로 변경(WalkIn, Reservation, Tables)
+* [x] 일대다 관계로 변경(Customer, Reservation)

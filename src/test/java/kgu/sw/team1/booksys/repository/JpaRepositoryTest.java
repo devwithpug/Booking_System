@@ -75,7 +75,7 @@ class JpaRepositoryTest {
         Reservation savedReservation = reservationRepository.save(reservation);
         // then
         Reservation result = reservationRepository.findById(savedReservation.getOid()).get();
-        Reservation result2 = reservationRepository.findByCustomer(customer);
+        Reservation result2 = reservationRepository.findByCustomer(customer).get(0);
         Reservation result3 = reservationRepository.findAllByTables(table).get(0);
 
         assertThat(result).isEqualTo(savedReservation);
@@ -202,7 +202,7 @@ class JpaRepositoryTest {
         reservation.setTables(List.of(table));
         Reservation savedReservation = reservationRepository.save(reservation);
         // when
-        Reservation result = reservationRepository.findByCustomer(customer);
+        Reservation result = reservationRepository.findByCustomer(customer).get(0);
         // then
         assertThat(result).isEqualTo(savedReservation);
     }

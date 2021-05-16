@@ -31,7 +31,7 @@ public class Reservation implements Booking{
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "reservation_tables",
             joinColumns = @JoinColumn(name = "reservation_oid"),
@@ -39,7 +39,7 @@ public class Reservation implements Booking{
     )
     private List<Tables> tables;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_oid")
     private Customer customer;
 
@@ -109,11 +109,7 @@ public class Reservation implements Booking{
     @Override
     public void setTables(List<Tables> tables) {
         if (tables != null) {
-            List<Tables> list = new ArrayList<>();
-            for (Tables table : tables) {
-                list.add(table);
-            }
-            this.tables = list;
+            this.tables = new ArrayList<>(tables);
         }
     }
 

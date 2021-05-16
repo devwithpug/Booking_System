@@ -45,7 +45,7 @@ class ReservationServiceTest {
         // when
         Reservation savedReservation = reservationService.makePreReservation(param);
         // then
-        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        Reservation result = reservationService.findCustomerReservation(savedCustomer).get(0);
         assertThat(result.getOid()).isEqualTo(savedReservation.getOid());
         assertThat(savedReservation.getTables().isEmpty()).isFalse();
         assertThat(savedReservation.getTables()).hasSize(2);
@@ -85,7 +85,7 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         Reservation changed = reservationService.modifyReservationTable(savedReservation.getOid(), savedNewTables.getOid());
         // then
-        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        Reservation result = reservationService.findCustomerReservation(savedCustomer).get(0);
         assertThat(result.getTables().get(0).getOid()).isEqualTo(changed.getTables().get(0).getOid());
     }
 
@@ -107,7 +107,7 @@ class ReservationServiceTest {
         String time = "16:00:00";
         Reservation changed = reservationService.modifyReservationTime(savedReservation.getOid(), date, time);
         // then
-        Reservation result = reservationService.findCustomerReservation(savedCustomer);
+        Reservation result = reservationService.findCustomerReservation(savedCustomer).get(0);
         assertThat(result.getDate()).isEqualTo(date);
         assertThat(result.getTime()).isEqualTo(time);
     }
@@ -115,6 +115,7 @@ class ReservationServiceTest {
     @Test
     void 예약_취소() {
         // given
+        tablesRepository.deleteAll();
         Customer savedCustomer = customerRepository.save(new Customer());
         Tables savedTables = tablesRepository.save(new Tables());
 
@@ -128,8 +129,8 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         reservationService.cancelReservation(savedReservation.getOid());
         // then
-        Reservation result = reservationService.findCustomerReservation(savedCustomer);
-        assertThat(result).isNull();
+        List<Reservation> result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(result).isEmpty();
     }
 
     @Test
@@ -148,10 +149,12 @@ class ReservationServiceTest {
         param.setTime("19:00:00");
         Reservation reservation2 = reservationService.makePreReservation(param);
         // when
+        String time0 = "15:00:00";
         String time1 = "17:00:00";
         String time2 = "16:59:00";
         String time3 = "17:01:00";
         // then
+        assertThat(reservationService.isBookable(savedTables.getOid(), param.getDate(), time0)).isFalse();
         assertThat(reservationService.isBookable(savedTables.getOid(), param.getDate(), time1)).isTrue();
         assertThat(reservationService.isBookable(savedTables.getOid(), param.getDate(), time2)).isFalse();
         assertThat(reservationService.isBookable(savedTables.getOid(), param.getDate(), time3)).isFalse();

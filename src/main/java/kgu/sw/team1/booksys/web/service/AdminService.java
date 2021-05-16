@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public class AdminService {
 
-    private ReservationService reservationService;
-    private AdminRepository  adminRepository;
-    private TablesRepository tablesRepository;
+    private final ReservationService reservationService;
+    private final AdminRepository  adminRepository;
+    private final TablesRepository tablesRepository;
 
     public AdminService(ReservationService reservationService, AdminRepository adminRepository, TablesRepository tablesRepository) {
         this.reservationService = reservationService;

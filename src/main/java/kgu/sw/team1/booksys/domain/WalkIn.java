@@ -102,7 +102,9 @@ public class WalkIn implements Booking{
 
     @Override
     public void setTables(List<Tables> tables) {
-        this.tables = tables;
+        if (tables != null) {
+            this.tables = new ArrayList<>(tables);
+        }
     }
 
     public static WalkIn createInstance(WalkInParam param, Tables tables) {
