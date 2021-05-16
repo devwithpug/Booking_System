@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private CustomerRepository customerRepository;
-    private AdminRepository adminRepository;
+    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
+    private final AdminRepository adminRepository;
 
     public UserService(UserRepository userRepository, CustomerRepository customerRepository, AdminRepository adminRepository) {
         this.userRepository = userRepository;

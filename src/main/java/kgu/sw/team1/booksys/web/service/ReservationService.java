@@ -22,11 +22,11 @@ import java.util.List;
 @Service
 public class ReservationService {
 
-    private CustomerRepository customerRepository;
-    private ReservationRepository reservationRepository;
-    private TablesRepository tablesRepository;
-    private WalkInRepository walkInRepository;
-    private List<WalkInParam> waitingList;
+    private final CustomerRepository customerRepository;
+    private final ReservationRepository reservationRepository;
+    private final TablesRepository tablesRepository;
+    private final WalkInRepository walkInRepository;
+    private final List<WalkInParam> waitingList;
 
     public ReservationService(CustomerRepository customerRepository, ReservationRepository reservationRepository, TablesRepository tablesRepository, WalkInRepository walkInRepository) {
         this.customerRepository = customerRepository;
@@ -43,16 +43,15 @@ public class ReservationService {
      */
     public Reservation makePreReservation(ReservationParam param) {
         Customer customer = customerRepository.findById(param.getCustomerOid()).get();
+        Reservation reservation = reservationRepository.save(new Reservation());
 
         List<Tables> tables = new ArrayList<>();
         for (Integer tablesOid : param.getTablesOid()) {
             Tables table = tablesRepository.findById(tablesOid).get();
             if (table.isEmpty()) table.toggle();
-            tablesRepository.save(table);
             tables.add(table);
+            tablesRepository.save(table);
         }
-
-        Reservation reservation = reservationRepository.save(new Reservation());
         reservation.setCustomer(customer);
         reservation.setTables(tables);
         reservation.setDate(LocalDate.parse(param.getDate()));
@@ -124,7 +123,7 @@ public class ReservationService {
     /**
      * 회원 예약 조회
      */
-    public Reservation findCustomerReservation(Customer customer) {
+    public List<Reservation> findCustomerReservation(Customer customer) {
         return reservationRepository.findByCustomer(customer);
     }
 
@@ -133,6 +132,9 @@ public class ReservationService {
      */
     public void cancelReservation(Integer reservationOid) {
         Reservation reservation = reservationRepository.findById(reservationOid).get();
+        List<Reservation> reservations = reservation.getCustomer().getReservation();
+        reservations.remove(reservation);
+        reservation.getCustomer().setReservation(reservations);
         List<Tables> tables = reservation.getTables();
         reservationRepository.delete(reservation);
     }
@@ -205,7 +207,8 @@ public class ReservationService {
         if (date2.isEqual(LocalDate.parse(date))) {
             LocalTime tempStart = LocalTime.parse(time);
             LocalTime tempEnd = tempStart.plusHours(2);
-            if (time2.isBefore(tempStart) && endTime.isAfter(tempStart)) return true;
+            if (time2 == LocalTime.parse(time)) return true;
+            else if (time2.isBefore(tempStart) && endTime.isAfter(tempStart)) return true;
             return time2.isBefore(tempEnd) && endTime.isAfter(tempEnd);
         }
         return false;

@@ -8,6 +8,7 @@ import kgu.sw.team1.booksys.web.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class ReservationController {
      * 사전 예약 페이지
      */
     @GetMapping("/reservation/{date}/{time}")
-    public String reservationForm(User user, String date, String time, Model model) {
+    public String reservationForm(User user, @PathVariable String date, @PathVariable String time, Model model) {
         List<Tables> allBookableTables = reservationService.findAllBookableTables(date, time);
         model.addAttribute("user", user);
         model.addAttribute("allBookableTables", allBookableTables);

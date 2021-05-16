@@ -28,14 +28,14 @@ public class Tables {
     private Boolean empty;
 
     @ManyToMany(mappedBy = "tables", cascade = CascadeType.ALL)
-    private List<Reservation> reservation;
+    private List<Reservation> reservations;
 
     @ManyToMany(mappedBy = "tables", cascade = CascadeType.ALL)
     private List<WalkIn> walk_in;
 
     public Tables() {
         empty = true;
-        reservation = new ArrayList<>();
+        reservations = new ArrayList<>();
         walk_in = new ArrayList<>();
     }
 
@@ -76,18 +76,12 @@ public class Tables {
         this.places = places;
     }
 
-    public List<Reservation> getReservation() {
-        return reservation;
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
-    public void setReservation(List<Reservation> reservation) {
-        if (reservation != null) {
-            List<Reservation> list = new ArrayList<>();
-            for (Reservation res : reservation) {
-                list.add(res);
-            }
-            this.reservation = list;
-        }
+    public void setReservations(List<Reservation> reservation) {
+        this.reservations = reservation;
     }
 
     public List<WalkIn> getWalk_in() {
@@ -96,5 +90,10 @@ public class Tables {
 
     public void setWalk_in(List<WalkIn> walk_in) {
         this.walk_in = walk_in;
+    }
+
+    @Override
+    public String toString() {
+        return this.number.toString();
     }
 }
