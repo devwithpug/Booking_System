@@ -1,0 +1,36 @@
+@charset "UTF-8";
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+    background:#f5f7fa;
+}
+.bg-position-center {
+    background-position: center !important;
+}
+.bg-size-cover {
+    background-size: cover !important;
+}
+.bg-accent {
+    background-color: #4e54c8 !important;
+}
+.item {
+    width: 100px;
+    height: 100px;
+    background: gray;
+    margin: 5px;
+    display: inline-block;
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+tablenum {
+    line-height: 90px;
+    text-align: center;
+    font-size: 60px;
+}
+tabletext {
+    font-size: 15px;
+    white-space: nowrap;
+    position: relative;
+    top: -20%;
+}
