@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.bg-position-center {
+    background-position: center !important;
+}
+.bg-size-cover {
+    background-size: cover !important;
+}
+.bg-accent {
+    background-color: #4e54c8 !important;
+}

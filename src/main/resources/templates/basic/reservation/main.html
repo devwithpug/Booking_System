@@ -1,17 +1,128 @@
-<!--테스트용 메인 페이지입니다.-->
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}">
-    <title>Title</title>
+    <title>Main</title>
+    <link rel="stylesheet" href="../../../static/assets/_bootstrap.min.css">
+    <link rel="stylesheet" href="../../../static/assets/jquery.datetimepicker.css">
+    <link rel="stylesheet" href="../../../static/assets/background.css">
+    <link th:href="@{/assets/tables.css}" href="../../../static/assets/tables.css" rel="stylesheet">
+    <script type="text/javascript" src="../../../static/assets/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../static/assets/jquery.datetimepicker.full.min.js"></script>
+    <script type="text/javascript" src="../../../static/assets/_bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+
 </head>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">예약</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">예약하기</a>
+                        <a class="dropdown-item" href="#">예약 조회</a>
+                        <a class="dropdown-item" href="#">예약 변경/취소</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">관리자</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">현장 예약</a>
+                        <a class="dropdown-item" href="#">통계</a>
+                    </div>
+                </li>
+            </ul>
+
+            <form class="d-flex">
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: #FFFFFF;">로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: #FFFFFF;">회원가입</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</nav>
+
 <body>
-메인페이지
-<div>
-    <h2>로그인 성공</h2>
-    <h3 th:text="${user.grade}+'등급'">id</h3>
-    <h3 th:text="'현재 '+${allReservations.size()}+'개의 예약이 있습니다.'"></h3>
-</div>
+    <div class="bg-accent bg-position-center bg-size-cover py-3 py-sm-5"
+        style="background-image: url(../../../static/assets/main-image.jpg);">
+        <div class="container py-5">
+            <div class="row pt-md-5 pb-lg-5 justify-content-center">
+                <div class="col-xl-7 col-lg-8 col-md-10 text-center py-xl-5">
+                    <h1 class="text-light py-sm-5"><span class="fw-light">텍스트??</span>
+                        <div class="py-4 py-sm-5">
+                            <a class="btn btn-primary btn-lg" href="#">예약하기</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="bg-body py-5">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-4">
+                    <form action="" th:action method="post">
+                        <div>
+                            <input type="text" id="datePicker" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-12 col-md-2 mt-auto mb-auto pe-5">
+                    <p class="text-center"><a href="#" class="btn btn-success">조회하기</a></p>
+                </div>
+                <div class="col-12 col-md-6" style="border-style: solid; border-color:gray">
+                    <div th:each="table : ${tables}"
+                        th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}" class="item">
+                        <tablenum th:text="${table.getNumber()}">5</tablenum>
+                        <tabletext th:text="${table.isEmpty() ? '예약 가능' : '예약 불가능'}">예약 불가능</tabletext>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+
+
+    <script>
+        $.datetimepicker.setLocale('ko');
+        $(function () {
+            $('#datePicker').datetimepicker({
+                inline: true, // 바디에 datetimepicker 바로 생성
+                format: "Y-m-d H:i:00",	//데이터 포맷 형식
+                minDate: 0,	// 최소 선택 가능 날짜 0:오늘
+                minTime: 0, // 최소 선택 가능 시간
+                allowTimes: [
+                    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
+                    '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
+                ], // 허용 시간 (영업시간)
+                onChangeDateTime: function (dp, $input) {
+                    console.log($input.val()); // 시간 선택시 콘솔에 출력
+                }
+
+            });//datepicker end
+        });//ready end
+    </script>
+
+
 </body>
+
 </html>
