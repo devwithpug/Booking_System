@@ -28,7 +28,8 @@
 ```json
 {
   "number": 11,
-  "places": "테이블_구역"
+  "places": "테이블_구역",
+  "empty": true
 }
 ```
 

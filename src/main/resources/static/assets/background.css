@@ -1,6 +1,7 @@
 @charset "UTF-8";
 .bg-position-center {
     background-position: center !important;
+    background-image: url("main-image.jpg");
 }
 .bg-size-cover {
     background-size: cover !important;

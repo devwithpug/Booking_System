@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reservation Page</title>
-<link href="https://fonts.googleapis.com/css?family=Hind:400,700"
-	rel="stylesheet">
-<link th:href="@{/assets/_bootstrap.min.css}"
-	href="../../../static/assets/_bootstrap.min.css" rel="stylesheet">
-<link th:href="@{/assets/reservation.css}"
-	href="../../../static/assets/reservation.css" rel="stylesheet">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap.min.css}" href="../../../static/assets/_bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/assets/reservation.css}" href="../../../static/assets/reservation.css" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap-select.min.css}" href="../../../static/assets/_bootstrap-select.min.css" rel="stylesheet">
+<script th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap.bundle.min.js}" src="../../../static/assets/_bootstrap.bundle.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap-select-2.min.js}" src="../../../static/assets/_bootstrap-select-2.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap-select.min.js}" src="../../../static/assets/_bootstrap-select.min.js" type="text/javascript"></script>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container-fluid">
@@ -58,7 +57,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="booking-form">
-				<form>
+				<form action="" th:action method="post">
 					<div class="row">
 						<div class="form-header">
 							<h1>예약 등록</h1>
@@ -88,17 +87,31 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<span class="form-label">날짜</span> <input class="form-control"
-									type="date" requireds>
+									name="date" type="date" required>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<span class="form-label">시간</span> <select class="form-control"
+								<span class="form-label">시간</span> <select class="form-control" name="time"
 									required>
 									<option value="" disabled selected hidden>시작 - 종료</option>
-									<option>10:00 - 12:00</option>
-									<option>12:00 - 14:00</option>
-									<option>14:00 - 16:00</option>
+								<option>12:00 - 14:00</option>
+								<option>12:30 - 14:30</option>
+								<option>13:00 - 15:00</option>
+								<option>13:30 - 15:30</option>
+								<option>14:00 - 16:00</option>
+								<option>14:30 - 16:30</option>
+								<option>15:00 - 17:00</option>
+								<option>15:30 - 17:30</option>
+								<option>16:00 - 18:00</option>
+								<option>16:30 - 18:30</option>
+								<option>17:00 - 19:00</option>
+								<option>17:30 - 19:30</option>
+								<option>18:00 - 20:00</option>
+								<option>18:30 - 20:30</option>
+								<option>19:00 - 21:00</option>
+								<option>19:30 - 21:30</option>
+								<option>20:00 - 22:00</option>
 								</select> <span class="select-arrow"></span>
 							</div>
 						</div>
@@ -110,54 +123,43 @@
 									<span class="form-label">테이블 번호</span>
 								</div>
 								<div>
-									<select class="selectpicker w-100" multiple multiple
-										title="--">
-										<option value="" disabled selected hidden>--</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										<option value="6">6</option>
-										<option value="7">7</option>
+									<select id="table" class="selectpicker w-100" multiple required
+										title="--" name="tablesOid">
+										<option value="none" disabled selected hidden>--</option>
+										<option type="text" th:each="table : ${tables}" th:value="${table.oid}" th:text="${table.number}"></option>
 									</select> <span class="select-arrow"></span>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<span class="form-label">인원수</span> <select class="form-control"
-									required>
-									<option value="" disabled selected hidden>--</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-								</select> <span class="select-arrow"></span>
+								<span class="form-label">인원수</span>
+								<input class="form-control" type="number" name="covers" placeholder="--" min="1" max="30" required>
+								<span class="select-arrow"></span>
 							</div>
 						</div>
 					</div>
 					<div class="form-btn">
-						<button class="submit-btn">예약하기</button>
+						<button type="submit" id="btn" class="submit-btn" disabled="disabled">예약하기</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 </body>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/2.0.0-beta1/js/bootstrap-select.min.js"></script>
 <script>
 	$(document).ready(function() {
 		$('.multi-select').selectpicker();
 	});
+    $(function () {
+        $('#table').change(function () {
+            if ($('#table').val().length !== 0) {
+				$('#btn').attr('disabled', false);
+            } else {
+                $('#btn').attr('disabled', true);
+			}
+        });
+    });
 </script>
 
 </html>
