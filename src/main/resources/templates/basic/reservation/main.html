@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
-    <link rel="stylesheet" href="../../../static/assets/_bootstrap.min.css">
-    <link rel="stylesheet" href="../../../static/assets/jquery.datetimepicker.css">
-    <link rel="stylesheet" href="../../../static/assets/background.css">
-    <link th:href="@{/assets/tables.css}" href="../../../static/assets/tables.css" rel="stylesheet">
-    <script type="text/javascript" src="../../../static/assets/jquery.min.js"></script>
-    <script type="text/javascript" src="../../../static/assets/jquery.datetimepicker.full.min.js"></script>
-    <script type="text/javascript" src="../../../static/assets/_bootstrap.min.js"></script>
+    <link rel="stylesheet" th:href="@{/assets/_bootstrap.min.css}" href="../../../static/assets/_bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/jquery.datetimepicker.css}" href="../../../static/assets/jquery.datetimepicker.css">
+    <link rel="stylesheet" th:href="@{/assets/background.css}" href="../../../static/assets/background.css">
+    <link rel="stylesheet" th:href="@{/assets/tables.css}" href="../../../static/assets/tables.css">
+    <script type="text/javascript" th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/assets/jquery.datetimepicker.full.min.js}" src="../../../static/assets/jquery.datetimepicker.full.min.js"></script>
+    <script type="text/javascript" th:src="@{/assets/_bootstrap.min.js}" src="../../../static/assets/_bootstrap.min.js"></script>
     <!-- Custom styles for this template -->
 
 </head>
@@ -62,15 +62,19 @@
 </nav>
 
 <body>
-    <div class="bg-accent bg-position-center bg-size-cover py-3 py-sm-5"
-        style="background-image: url(../../../static/assets/main-image.jpg);">
+    <div class="bg-accent bg-position-center bg-size-cover py-3 py-sm-5">
         <div class="container py-5">
             <div class="row pt-md-5 pb-lg-5 justify-content-center">
                 <div class="col-xl-7 col-lg-8 col-md-10 text-center py-xl-5">
-                    <h1 class="text-light py-sm-5"><span class="fw-light">텍스트??</span>
-                        <div class="py-4 py-sm-5">
-                            <a class="btn btn-primary btn-lg" href="#">예약하기</a>
-                        </div>
+                    <h1 class="text-light py-sm-5"><span class="fw-light">텍스트??</span></h1>
+                    <button class="btn btn-primary btn-lg" type="button"
+                            onclick="location.href='reservationCreateForm.html'"
+                            th:onclick="|location.href='@{/reservation/{customerOid}/create/(customerOid=${customer.oid})}'|"
+                    >예약하기</button>
+                    <button class="btn btn-warning btn-lg" type="button"
+                            onclick="location.href='user.html'"
+                            th:onclick="|location.href='@{/user/info/{customerOid}/(customerOid=${customer.oid})}'|"
+                    >회원정보 임시버튼</button>
                 </div>
             </div>
         </div>
@@ -83,22 +87,21 @@
                 <div class="col-12 col-md-4">
                     <form action="" th:action method="post">
                         <div>
-                            <input type="text" id="datePicker" class="form-control">
+                            <input type="text" id="datePicker" name="datePicker" class="form-control">
                         </div>
+                        <button class="btn btn-success" type="submit">조회하기</button>
+                        <b id="selected">조회할 날짜를 선택하세요.</b>
                     </form>
                 </div>
-                <div class="col-12 col-md-2 mt-auto mb-auto pe-5">
-                    <p class="text-center"><a href="#" class="btn btn-success">조회하기</a></p>
-                </div>
-                <div class="col-12 col-md-6" style="border-style: solid; border-color:gray">
+                <div class="col-12 col-md-8" style="border-style: solid; border-color:gray">
                     <div th:each="table : ${tables}"
-                        th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}" class="item">
+                         th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}" class="item">
                         <tablenum th:text="${table.getNumber()}">5</tablenum>
                         <tabletext th:text="${table.isEmpty() ? '예약 가능' : '예약 불가능'}">예약 불가능</tabletext>
                     </div>
                 </div>
             </div>
-
+        </div>
     </section>
 
 
@@ -115,7 +118,8 @@
                     '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
                 ], // 허용 시간 (영업시간)
                 onChangeDateTime: function (dp, $input) {
-                    console.log($input.val()); // 시간 선택시 콘솔에 출력
+                    // console.log($input.val()); // 시간 선택시 콘솔에 출력
+                    $('#selected').text("선택: "+$input.val());
                 }
 
             });//datepicker end

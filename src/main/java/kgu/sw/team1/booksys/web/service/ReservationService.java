@@ -5,6 +5,7 @@ import kgu.sw.team1.booksys.domain.Reservation;
 import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.WalkIn;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
+import kgu.sw.team1.booksys.domain.param.TablesParam;
 import kgu.sw.team1.booksys.domain.param.WalkInParam;
 import kgu.sw.team1.booksys.repository.CustomerRepository;
 import kgu.sw.team1.booksys.repository.ReservationRepository;
@@ -87,6 +88,21 @@ public class ReservationService {
         for (Tables tables : tablesRepository.findAll()) {
             if (isBookable(tables.getOid(), date, time)) {
                 result.add(tables);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 모든 테이블 객체 파라미터로 변환
+     */
+    public List<TablesParam> getAllTablesParam(String date, String time) {
+        List<TablesParam> result = new ArrayList<>();
+        for (Tables tables : tablesRepository.findAll()) {
+            if (isBookable(tables.getOid(), date, time)) {
+                result.add(new TablesParam(tables, true));
+            } else {
+                result.add(new TablesParam(tables, false));
             }
         }
         return result;
@@ -176,6 +192,15 @@ public class ReservationService {
     }
 
     /**
+     * 예약 인원수 변경
+     */
+    public Reservation modifyReservationCovers(Integer reservationOid, Integer covers) {
+        Reservation reservation = reservationRepository.findById(reservationOid).get();
+        reservation.setCovers(covers);
+        return reservationRepository.save(reservation);
+    }
+
+    /**
      * 도착 기록
      */
     public Reservation saveArrivalInfo(Integer reservationOid) {
@@ -195,21 +220,20 @@ public class ReservationService {
 
         if (tables.isEmpty()) return true;
         for (WalkIn walkIn : tablesWalkIns) {
-            if (compare(date, time, walkIn.getDate(), walkIn.getTime(), walkIn.getEndTime())) return false;
+            if (compare(LocalDate.parse(date), LocalTime.parse(time), walkIn.getDate(), walkIn.getTime(), walkIn.getEndTime())) return false;
         }
         for (Reservation reservation : tablesReservations) {
-            if (compare(date, time, reservation.getDate(), reservation.getTime(), reservation.getEndTime())) return false;
+            if (compare(LocalDate.parse(date), LocalTime.parse(time), reservation.getDate(), reservation.getTime(), reservation.getEndTime())) return false;
         }
         return true;
     }
 
-    private boolean compare(String date, String time, LocalDate date2, LocalTime time2, LocalTime endTime) {
-        if (date2.isEqual(LocalDate.parse(date))) {
-            LocalTime tempStart = LocalTime.parse(time);
-            LocalTime tempEnd = tempStart.plusHours(2);
-            if (time2 == LocalTime.parse(time)) return true;
-            else if (time2.isBefore(tempStart) && endTime.isAfter(tempStart)) return true;
-            return time2.isBefore(tempEnd) && endTime.isAfter(tempEnd);
+    private boolean compare(LocalDate date, LocalTime time, LocalDate date2, LocalTime time2, LocalTime endTime) {
+        if (date2.isEqual(date)) {
+            LocalTime end = time.plusHours(2);
+            if (time2.equals(time)) return true;
+            else if (time2.isBefore(time) && endTime.isAfter(time)) return true;
+            return time2.isBefore(end) && endTime.isAfter(end);
         }
         return false;
     }
@@ -219,6 +243,27 @@ public class ReservationService {
      */
     public boolean isExistsEmptyTables() {
         return tablesRepository.findAllEmptyTables().size() > 0;
+    }
+
+    /**
+     * 테이블 번호 조회
+     */
+    public Tables findOneTablesByNumber(Integer number) {
+        return tablesRepository.findByNumber(number);
+    }
+
+    /**
+     * 테이블 oid 조회
+     */
+    public Tables findOneTables(Integer tablesOid) {
+        return tablesRepository.findById(tablesOid).get();
+    }
+
+    /**
+     * 모든 테이블 조회
+     */
+    public List<Tables> findAllTables() {
+        return tablesRepository.findAll();
     }
 
     // TODO - 예약 알림

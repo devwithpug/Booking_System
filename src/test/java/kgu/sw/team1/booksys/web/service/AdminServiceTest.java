@@ -5,6 +5,7 @@ import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
 import kgu.sw.team1.booksys.domain.param.UserParam;
+import kgu.sw.team1.booksys.repository.TablesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,12 @@ class AdminServiceTest {
     private ReservationService reservationService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TablesRepository tablesRepository;
 
     @BeforeEach
     void beforeEach() {
+        tablesRepository.deleteAll();
         UserParam param = new UserParam();
         param.setId("adminServiceTestId");
         param.setPw("1234");

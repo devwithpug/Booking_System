@@ -42,9 +42,9 @@ public class UserController {
         if (grade == null) return "basic/user/loginForm";
 
         User user = userService.login(param.getId(), param.getPw());
-        List<Reservation> allReservations = reservationService.findAllReservations();
-        redirectAttributes.addAttribute("user", user);
-        return "redirect:/reservation/main";
+        Integer customerOid = user.getCustomer().getOid();
+        redirectAttributes.addAttribute("customerOid", customerOid);
+        return "redirect:/main/{customerOid}";
     }
 
     /**
