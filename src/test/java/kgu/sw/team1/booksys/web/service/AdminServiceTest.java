@@ -1,10 +1,10 @@
 package kgu.sw.team1.booksys.web.service;
 
-import kgu.sw.team1.booksys.domain.Customer;
-import kgu.sw.team1.booksys.domain.Tables;
+import kgu.sw.team1.booksys.domain.*;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
 import kgu.sw.team1.booksys.domain.param.UserParam;
+import kgu.sw.team1.booksys.repository.ReservationHistoryRepository;
 import kgu.sw.team1.booksys.repository.TablesRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,10 +28,13 @@ class AdminServiceTest {
     private UserService userService;
     @Autowired
     private TablesRepository tablesRepository;
+    @Autowired
+    private ReservationHistoryRepository reservationHistoryRepository;
 
     @BeforeEach
     void beforeEach() {
         tablesRepository.deleteAll();
+        reservationHistoryRepository.deleteAll();
         UserParam param = new UserParam();
         param.setId("adminServiceTestId");
         param.setPw("1234");
@@ -131,5 +134,79 @@ class AdminServiceTest {
         assertThat(result).contains(savedTables, savedTables2, savedTables3);
         List<Tables> result2 = adminService.findAllAvailableTables("2021-11-11", "13:59:00");
         assertThat(result2).doesNotContain(savedTables3);
+    }
+
+    @Test
+    void 회원_등급_변경() {
+        // given
+        User user = userService.findAllUsers().get(0);
+        // when
+        adminService.changeUserGrade(user, Grade.VIP);
+        // then
+        assertThat(user.getGrade()).isEqualTo(Grade.VIP);
+    }
+
+    @Test
+    void 회원_등급_자동_변경() {
+        // given
+        User user = userService.findAllUsers().get(0);
+        ReservationHistory history = new ReservationHistory();
+        ReservationHistory history2 = new ReservationHistory();
+        ReservationHistory history3 = new ReservationHistory();
+        ReservationHistory history4 = new ReservationHistory();
+        ReservationHistory history5 = new ReservationHistory();
+        ReservationHistory history6 = new ReservationHistory();
+        ReservationHistory history7 = new ReservationHistory();
+        ReservationHistory history8 = new ReservationHistory();
+        ReservationHistory history9 = new ReservationHistory();
+        history.setUser(user);
+        history2.setUser(user);
+        history3.setUser(user);
+        history4.setUser(user);
+        history5.setUser(user);
+        history6.setUser(user);
+        history7.setUser(user);
+        history8.setUser(user);
+        history9.setUser(user);
+        reservationHistoryRepository.saveAll(List.of(
+                history, history2, history3, history4, history5, history6, history7, history8, history9
+        ));
+        // when
+        TablesParam param = new TablesParam();
+        param.setNumber(3331);
+        Tables savedTables = adminService.addTables(param);
+
+        ReservationParam param2 = new ReservationParam();
+        param2.setTablesOid(List.of(savedTables.getOid()));
+        param2.setCustomerOid(user.getCustomer().getOid());
+        param2.setTime("12:00:00");
+        param2.setDate("2021-11-11");
+        Reservation reservation = reservationService.makePreReservation(param2);
+        // then
+        assertThat(user.getGrade()).isEqualTo(Grade.BASIC);
+        adminService.setReservationArrival(reservation);
+        assertThat(user.getGrade()).isEqualTo(Grade.VIP);
+    }
+
+    @Test
+    void 예약_도착_처리() {
+        // given
+        User user = userService.findAllUsers().get(0);
+
+        TablesParam param = new TablesParam();
+        param.setNumber(3331);
+        Tables savedTables = adminService.addTables(param);
+
+        ReservationParam param2 = new ReservationParam();
+        param2.setTablesOid(List.of(savedTables.getOid()));
+        param2.setCustomerOid(user.getCustomer().getOid());
+        param2.setTime("12:00:00");
+        param2.setDate("2021-11-11");
+        Reservation reservation = reservationService.makePreReservation(param2);
+        // when
+        ReservationHistory reservationHistory = adminService.setReservationArrival(reservation);
+        // then
+        assertThat(reservationService.findAllReservations()).isEmpty();
+        assertThat(adminService.findAllHistoryByUser(user).size()).isEqualTo(1);
     }
 }

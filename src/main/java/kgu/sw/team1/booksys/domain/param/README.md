@@ -32,13 +32,3 @@
   "empty": true
 }
 ```
-
-* WalkInParam
-```json
-{
-  "date": "예약_날짜",
-  "time": "예약_시간",
-  "covers": 4,
-  "tablesOid": [1, 2, 3]
-}
-```

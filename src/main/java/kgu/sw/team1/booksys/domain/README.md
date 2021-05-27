@@ -5,6 +5,7 @@
 * `Admin.java`
 * `User.java`
 * `Grade.java`
+* 'ReservationHistory.java'
 
 ### 제거
 
@@ -24,11 +25,12 @@
 * `Reservation.java`
 * `WalkIn.java`
 
-### 연관 관계(21.05.16)
+### 연관 관계(21.05.27)
 
-![image](https://user-images.githubusercontent.com/69145799/118388633-9d78fe00-b660-11eb-8688-a044fdf7ab87.png)
+![스크린샷 2021-05-27 20 19 31](https://user-images.githubusercontent.com/69145799/119817405-e6fefe00-bf28-11eb-9ddf-326d8f1d7f5e.png)
 
 ### TO-DO LIST
 
 * [x] 다대다 관계로 변경(WalkIn, Reservation, Tables)
 * [x] 일대다 관계로 변경(Customer, Reservation)
+* [x] 예약 기록(통계 관련) 추가
