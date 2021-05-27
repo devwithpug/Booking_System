@@ -5,7 +5,6 @@ import kgu.sw.team1.booksys.domain.Reservation;
 import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.WalkIn;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
-import kgu.sw.team1.booksys.domain.param.WalkInParam;
 import kgu.sw.team1.booksys.repository.CustomerRepository;
 import kgu.sw.team1.booksys.repository.TablesRepository;
 import org.junit.jupiter.api.Test;
@@ -57,12 +56,8 @@ class ReservationServiceTest {
         tablesRepository.deleteAll();
         Tables savedTables = tablesRepository.save(new Tables());
         Tables savedTables2 = tablesRepository.save(new Tables());
-        WalkInParam param = new WalkInParam();
-        param.setCovers(2);
-        param.setDate("2021-12-25");
-        param.setTime("12:00:00");
         // when
-        List<WalkIn> result = reservationService.makeOnSiteReservation(param);
+        List<WalkIn> result = reservationService.makeOnSiteReservation(2);
         // then
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getTables()).containsAnyOf(savedTables, savedTables2);
@@ -166,16 +161,13 @@ class ReservationServiceTest {
         tablesRepository.deleteAll();
         tablesRepository.save(new Tables());
         // when
-        WalkInParam param = new WalkInParam();
-        param.setDate("2021-07-30");
-        param.setTime("12:00:00");
-        List<WalkIn> a1 = reservationService.makeOnSiteReservation(param);
-        param.setTime("12:30:00");
-        List<WalkIn> a2 = reservationService.makeOnSiteReservation(param);
-        List<WalkIn> a3 = reservationService.makeOnSiteReservation(param);
-        List<WalkIn> a4 = reservationService.makeOnSiteReservation(param);
+
+        List<WalkIn> a1 = reservationService.makeOnSiteReservation(1);
+        List<WalkIn> a2 = reservationService.makeOnSiteReservation(1);
+        List<WalkIn> a3 = reservationService.makeOnSiteReservation(1);
+        List<WalkIn> a4 = reservationService.makeOnSiteReservation(1);
         // then
-        List<WalkInParam> result = reservationService.getWaitingList();
+        List<Integer> result = reservationService.getWaitingList();
         assertThat(result).hasSize(3);
     }
 }

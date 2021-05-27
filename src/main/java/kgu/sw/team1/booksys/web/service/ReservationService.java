@@ -6,7 +6,6 @@ import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.WalkIn;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
-import kgu.sw.team1.booksys.domain.param.WalkInParam;
 import kgu.sw.team1.booksys.repository.CustomerRepository;
 import kgu.sw.team1.booksys.repository.ReservationRepository;
 import kgu.sw.team1.booksys.repository.TablesRepository;
@@ -27,7 +26,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TablesRepository tablesRepository;
     private final WalkInRepository walkInRepository;
-    private final List<WalkInParam> waitingList;
+    private final List<Integer> waitingList;
 
     public ReservationService(CustomerRepository customerRepository, ReservationRepository reservationRepository, TablesRepository tablesRepository, WalkInRepository walkInRepository) {
         this.customerRepository = customerRepository;
@@ -64,11 +63,19 @@ public class ReservationService {
     /**
      * 예약 현장 등록
      */
-    public List<WalkIn> makeOnSiteReservation(WalkInParam param) {
+    public List<WalkIn> makeOnSiteReservation(Integer covers) {
+        waitingList.add(covers);
+        return processOnSiteReservation();
+    }
+
+    /**
+     * 대기 리스트 입장 처리
+     */
+    public List<WalkIn> processOnSiteReservation() {
         List<WalkIn> result = new ArrayList<>();
-        List<Tables> emptyTables = findAllBookableTables(param.getDate(), param.getTime());
+        List<Tables> emptyTables = findAllBookableTables(LocalDate.now().toString(), LocalTime.now().toString());
         Collections.shuffle(emptyTables);
-        waitingList.add(param);
+
         while (!waitingList.isEmpty() && !emptyTables.isEmpty()) {
             Tables tables = emptyTables.remove(0);
             if (tables.isEmpty()) tables.toggle();
@@ -77,6 +84,7 @@ public class ReservationService {
             WalkIn savedWalkIn = walkInRepository.save(walkIn);
             result.add(savedWalkIn);
         }
+
         return result;
     }
 
@@ -118,7 +126,7 @@ public class ReservationService {
     /**
      * 현장 예약 대기리스트 조회
      */
-    public List<WalkInParam> getWaitingList() {
+    public List<Integer> getWaitingList() {
         return waitingList;
     }
 
@@ -144,7 +152,7 @@ public class ReservationService {
     }
 
     /**
-     * 사전 예약 취소 (식사 종료)
+     * 사전 예약 취소 (예약 도착)
      */
     public void cancelReservation(Integer reservationOid) {
         Reservation reservation = reservationRepository.findById(reservationOid).get();
@@ -153,6 +161,7 @@ public class ReservationService {
         reservation.getCustomer().setReservation(reservations);
         List<Tables> tables = reservation.getTables();
         reservationRepository.delete(reservation);
+        processOnSiteReservation();
     }
 
     /**
@@ -162,6 +171,7 @@ public class ReservationService {
         WalkIn walkIn = walkInRepository.findById(walkInOid).get();
         List<Tables> tables = walkIn.getTables();
         walkInRepository.delete(walkIn);
+        processOnSiteReservation();
     }
 
     /**
@@ -220,7 +230,7 @@ public class ReservationService {
 
         if (tables.isEmpty()) return true;
         for (WalkIn walkIn : tablesWalkIns) {
-            if (compare(LocalDate.parse(date), LocalTime.parse(time), walkIn.getDate(), walkIn.getTime(), walkIn.getEndTime())) return false;
+            if (compare(LocalDate.parse(date), LocalTime.parse(time), walkIn.getDate(), walkIn.getTime(), walkIn.getEndTime().plusMinutes(30))) return false;
         }
         for (Reservation reservation : tablesReservations) {
             if (compare(LocalDate.parse(date), LocalTime.parse(time), reservation.getDate(), reservation.getTime(), reservation.getEndTime())) return false;

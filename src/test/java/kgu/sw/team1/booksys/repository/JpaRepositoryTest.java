@@ -1,9 +1,6 @@
 package kgu.sw.team1.booksys.repository;
 
-import kgu.sw.team1.booksys.domain.Customer;
-import kgu.sw.team1.booksys.domain.Reservation;
-import kgu.sw.team1.booksys.domain.Tables;
-import kgu.sw.team1.booksys.domain.WalkIn;
+import kgu.sw.team1.booksys.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,6 +29,10 @@ class JpaRepositoryTest {
     private TablesRepository tablesRepository;
     @Autowired
     private WalkInRepository walkInRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ReservationHistoryRepository reservationHistoryRepository;
 
 
     /**
@@ -118,6 +119,20 @@ class JpaRepositoryTest {
         assertThat(result).isEqualTo(savedWalkIn);
     }
 
+    @Test
+    void 예약_기록_생성_테스트() {
+        // given
+        ReservationHistory reservationHistory = new ReservationHistory();
+        ReservationHistory reservationHistory2 = new ReservationHistory();
+
+        // when
+        reservationHistoryRepository.saveAll(List.of(
+                reservationHistory, reservationHistory2
+        ));
+        List<ReservationHistory> result = reservationHistoryRepository.findAll();
+        // then
+        assertThat(result.size()).isEqualTo(2);
+    }
 
     /**
      * READ
@@ -255,6 +270,7 @@ class JpaRepositoryTest {
 
     @Test
     void 테이블_번호로_예약_찾기() {
+        // given
         Tables tables = tablesRepository.save(new Tables());
         Reservation reservation1 = new Reservation();
         Reservation reservation2 = new Reservation();
@@ -262,9 +278,69 @@ class JpaRepositoryTest {
         reservation2.setTables(List.of(tables));
         reservationRepository.save(reservation1);
         reservationRepository.save(reservation2);
-
+        // when
         List<Reservation> result = reservationRepository.findAllByTables(tables);
+        // then
         assertThat(result).contains(reservation1, reservation2);
+    }
+
+    @Test
+    void 해당_유저_예약_기록_조회() {
+        // given
+        User user = userRepository.save(new User());
+        ReservationHistory reservationHistory = new ReservationHistory();
+        ReservationHistory reservationHistory2 = new ReservationHistory();
+        reservationHistory.setUser(user);
+        reservationHistory2.setUser(user);
+        reservationHistoryRepository.saveAll(List.of(
+                reservationHistory, reservationHistory2));
+        // when
+        List<ReservationHistory> result = reservationHistoryRepository.findAllByUserOid(user.getOid());
+        // then
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).containsOnly(reservationHistory, reservationHistory2);
+    }
+
+    @Test
+    void 날짜_범위_예약_기록_조회() {
+        // given
+        ReservationHistory history = new ReservationHistory();
+        history.setDate(LocalDate.now());
+        reservationHistoryRepository.save(history);
+        // when
+        List<ReservationHistory> result = reservationHistoryRepository.findAllByDateBetween(
+                LocalDate.now().minusDays(10), LocalDate.now().plusDays(10));
+        // then
+        assertThat(result).contains(history);
+    }
+
+    @Test
+    void 등급별_예약_기록_조회() {
+        // given
+        User basicUser = new User();
+        basicUser.setGrade(Grade.BASIC);
+        User vipUser = new User();
+        vipUser.setGrade(Grade.VIP);
+        userRepository.saveAll(List.of(basicUser, vipUser));
+        ReservationHistory reservationHistory = new ReservationHistory();
+        ReservationHistory reservationHistory2 = new ReservationHistory();
+        ReservationHistory reservationHistory3 = new ReservationHistory();
+
+        reservationHistory.setUser(basicUser);
+        reservationHistory2.setUser(vipUser);
+        reservationHistory3.setUser(vipUser);
+        reservationHistoryRepository.saveAll(List.of(
+                reservationHistory, reservationHistory2, reservationHistory3
+        ));
+        // when
+        List<ReservationHistory> result1 = reservationHistoryRepository.findAllByGrade(Grade.BASIC);
+        List<ReservationHistory> result2 = reservationHistoryRepository.findAllByGrade(Grade.VIP);
+        // then
+        assertThat(result1.size()).isEqualTo(1);
+        assertThat(result1).containsOnly(reservationHistory);
+
+        assertThat(result2.size()).isEqualTo(2);
+        assertThat(result2).containsOnly(reservationHistory2, reservationHistory3);
     }
 
     /**
@@ -351,6 +427,20 @@ class JpaRepositoryTest {
     }
 
     @Test
+    void 유저_삭제_테스트() {
+        // given
+        User user = new User();
+        user.setId("myId");
+        user.setPw("myPw");
+        // when
+        user = userRepository.save(user);
+        userRepository.delete(user);
+        // then
+        User result = userRepository.findByIdAndPw("myId", "myPw");
+        assertThat(result).isNull();
+    }
+
+    @Test
     void 예약_삭제_테스트() {
         // given
         Customer customer = new Customer();
@@ -408,6 +498,33 @@ class JpaRepositoryTest {
         // then
         walkInRepository.delete(savedWalkIn);
         Optional<WalkIn> result = walkInRepository.findById(savedWalkIn.getOid());
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void 예약_기록_삭제_테스트() {
+        // given
+        User basicUser = new User();
+        basicUser.setGrade(Grade.BASIC);
+        User vipUser = new User();
+        vipUser.setId("id");
+        vipUser.setGrade(Grade.VIP);
+        userRepository.saveAll(List.of(basicUser, vipUser));
+        ReservationHistory reservationHistory = new ReservationHistory();
+        ReservationHistory reservationHistory2 = new ReservationHistory();
+        ReservationHistory reservationHistory3 = new ReservationHistory();
+
+        reservationHistory.setUser(basicUser);
+        reservationHistory2.setUser(vipUser);
+        reservationHistory3.setUser(vipUser);
+        reservationHistoryRepository.saveAll(List.of(
+                reservationHistory, reservationHistory2, reservationHistory3
+        ));
+        // when
+        reservationHistoryRepository.delete(reservationHistory);
+        reservationHistoryRepository.deleteAllByUserOid(vipUser.getOid());
+        List<ReservationHistory> result = reservationHistoryRepository.findAll();
+        // then
         assertThat(result).isEmpty();
     }
     

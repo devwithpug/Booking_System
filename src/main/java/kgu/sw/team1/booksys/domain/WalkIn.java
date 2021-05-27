@@ -2,7 +2,6 @@ package kgu.sw.team1.booksys.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import kgu.sw.team1.booksys.domain.param.WalkInParam;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -50,7 +49,7 @@ public class WalkIn implements Booking{
 
     @Override
     public LocalTime getArrivalTime() {
-        return null;
+        return time;
     }
 
     @Override
@@ -107,11 +106,11 @@ public class WalkIn implements Booking{
         }
     }
 
-    public static WalkIn createInstance(WalkInParam param, Tables tables) {
+    public static WalkIn createInstance(Integer covers, Tables tables) {
         WalkIn walkIn = new WalkIn();
-        walkIn.setDate(LocalDate.parse(param.getDate()));
-        walkIn.setTime(LocalTime.parse(param.getTime()));
-        walkIn.setCovers(param.getCovers());
+        walkIn.setDate(LocalDate.now());
+        walkIn.setTime(LocalTime.now());
+        walkIn.setCovers(covers);
         walkIn.setTables(List.of(tables));
         return walkIn;
     }
