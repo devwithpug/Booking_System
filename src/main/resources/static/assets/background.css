@@ -3,6 +3,7 @@
 .page-header {
     height: 100vh;
     background-position: center center;
+    background-image: url("main-image.jpg");
     background-size: cover;
     margin: 0;
     padding: 0;

@@ -46,8 +46,15 @@ public class ReservationController {
     public String mainForm(@PathVariable String date, @PathVariable String time, @PathVariable Integer customerOid, Model model) {
         Customer customer = userService.findOneCustomer(customerOid);
         List<TablesParam> allTablesParam = reservationService.getAllTablesParam(date, time);
+        List<Reservation> allReservations = reservationService.findAllReservations();
+        int count = 0;
+        for (TablesParam tables : allTablesParam) {
+            if (tables.isEmpty()) count++;
+        }
         model.addAttribute("customer", customer);
         model.addAttribute("tables", allTablesParam);
+        model.addAttribute("count", count);
+        model.addAttribute("allReservationCount", allReservations.size());
         return "basic/reservation/main";
     }
 
