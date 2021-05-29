@@ -37,3 +37,8 @@ tabletext {
     position: relative;
     top: -20%;
 }
+
+.text_border {
+    font-size: 38px;
+    text-shadow: -1.5px 0 #000000, 0 1.5px #000000, 1.5px 0 #000000, 0 -1.5px #000000;
+}
