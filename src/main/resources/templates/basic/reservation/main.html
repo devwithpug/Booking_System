@@ -2,110 +2,197 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Main</title>
-    <link rel="stylesheet" th:href="@{/assets/_bootstrap.min.css}" href="../../../static/assets/_bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/assets/jquery.datetimepicker.css}" href="../../../static/assets/jquery.datetimepicker.css">
-    <link rel="stylesheet" th:href="@{/assets/background.css}" href="../../../static/assets/background.css">
-    <link rel="stylesheet" th:href="@{/assets/tables.css}" href="../../../static/assets/tables.css">
-    <script type="text/javascript" th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/assets/jquery.datetimepicker.full.min.js}" src="../../../static/assets/jquery.datetimepicker.full.min.js"></script>
-    <script type="text/javascript" th:src="@{/assets/_bootstrap.min.js}" src="../../../static/assets/_bootstrap.min.js"></script>
-    <!-- Custom styles for this template -->
+<meta charset="UTF-8">
+<title>Main</title>
+<link rel="stylesheet" th:href="@{/assets/_bootstrap.min.css}"
+	href="../../../static/assets/_bootstrap.min.css">
+<link rel="stylesheet" th:href="@{/assets/jquery.datetimepicker.css}"
+	href="../../../static/assets/jquery.datetimepicker.css">
+<link rel="stylesheet" th:href="@{/assets/background.css}"
+	href="../../../static/assets/background.css">
+<link rel="stylesheet" th:href="@{/assets/tables.css}"
+	href="../../../static/assets/tables.css">
+<script type="text/javascript" th:src="@{/assets/jquery.min.js}"
+	src="../../../static/assets/jquery.min.js"></script>
+<script type="text/javascript"
+	th:src="@{/assets/jquery.datetimepicker.full.min.js}"
+	src="../../../static/assets/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript" th:src="@{/assets/_bootstrap.min.js}"
+	src="../../../static/assets/_bootstrap.min.js"></script>
+<!-- Custom styles for this template -->
 
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 
-    <div class="container">
+	<div class="container">
 
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarColor01" aria-controls="navbarColor01"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav me-auto">
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav me-auto">
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">예약</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">예약하기</a>
-                        <a class="dropdown-item" href="#">예약 조회</a>
-                        <a class="dropdown-item" href="#">예약 변경/취소</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">관리자</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">현장 예약</a>
-                        <a class="dropdown-item" href="#">통계</a>
-                    </div>
-                </li>
-            </ul>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">예약</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">예약하기</a> <a
+							class="dropdown-item" href="#">예약 조회</a> <a class="dropdown-item"
+							href="#">예약 변경/취소</a>
+					</div></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					role="button" aria-haspopup="true" aria-expanded="false">관리자</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="#">현장 예약</a> <a
+							class="dropdown-item" href="#">통계</a>
+					</div></li>
+			</ul>
 
-            <form class="d-flex">
-                <ul class="navbar-nav navbar-right">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: #FFFFFF;">로그인</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: #FFFFFF;">회원가입</a>
-                    </li>
-                </ul>
-            </form>
-        </div>
-    </div>
+			<form class="d-flex">
+				<ul class="navbar-nav navbar-right">
+					<li class="nav-item"><a class="nav-link" href="#"
+						style="color: #FFFFFF;">로그인</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"
+						style="color: #FFFFFF;">회원가입</a></li>
+				</ul>
+			</form>
+		</div>
+	</div>
 </nav>
 
-<body>
-    <div class="bg-accent bg-position-center bg-size-cover py-3 py-sm-5">
-        <div class="container py-5">
-            <div class="row pt-md-5 pb-lg-5 justify-content-center">
-                <div class="col-xl-7 col-lg-8 col-md-10 text-center py-xl-5">
-                    <h1 class="text-light py-sm-5"><span class="fw-light">텍스트??</span></h1>
-                    <button class="btn btn-primary btn-lg" type="button"
-                            onclick="location.href='reservationCreateForm.html'"
-                            th:onclick="|location.href='@{/reservation/{customerOid}/create/(customerOid=${customer.oid})}'|"
-                    >예약하기</button>
-                    <button class="btn btn-warning btn-lg" type="button"
-                            onclick="location.href='user.html'"
-                            th:onclick="|location.href='@{/user/info/{customerOid}/(customerOid=${customer.oid})}'|"
-                    >회원정보 임시버튼</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="index-page sidebar-collapse">
+	<div class="page-header header-filter clear-filter"
+		data-parallax="true"
+		style="background-image: url('../../../static/assets/main-image.jpg');">
+		<div class="container py-5">
+			<div class="row pt-md-5 pb-lg-5 justify-content-center">
+				<div class="col-xl-7 col-lg-8 col-md-10 text-center py-xl-5">
+					<h1 class="text-light py-sm-5">
+						<span class="fw-light">텍스트??</span>
+					</h1>
+					<button class="btn btn-primary btn-lg" type="button"
+						onclick="location.href='reservationCreateForm.html'"
+						th:onclick="|location.href='@{/reservation/{customerOid}/create/(customerOid=${customer.oid})}'|">예약하기</button>
+					<button class="btn btn-warning btn-lg" type="button"
+						onclick="location.href='user.html'"
+						th:onclick="|location.href='@{/user/info/{customerOid}/(customerOid=${customer.oid})}'|">회원정보
+						임시버튼</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="main main-raised mb-5">
+		<div class="section section-basic pb-5">
+			<div class="container py-5 justify-content-center">
+				<div class="row">
+					<div class="col-12 text-center">
+						<h1 class="text-dark py-sm-5">
+							<span class="fw-light">예약현황 : 1 남은 테이블 : 5</span>
+						</h1>
+					</div>
 
-    <section class="bg-body py-5">
-        <div class="container">
-            <div class="row">
+				</div>
+			</div>
+			<div class="container p-5" style="box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);">
+				<div class="row">
+					<div class="col-12 col-md-4">
+						<form action="" th:action method="post">
+							<div>
+								<input type="text" id="datePicker" name="datePicker"
+									class="form-control">
+							</div>
+							<button class="btn btn-success" type="submit">조회하기</button>
+							<b id="selected">조회할 날짜를 선택하세요.</b>
+						</form>
+					</div>
+					<div class="col-12 col-md-8"
+						style="border-style: solid; border-color: gray">
+						<div th:each="table : ${tables}"
+							th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}"
+							class="item">
+							<tablenum th:text="${table.getNumber()}">5</tablenum>
+							<tabletext th:text="${table.isEmpty() ? '예약 가능' : '예약 불가능'}">예약
+							불가능</tabletext>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container mt-5" style="box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);">
+                <div class="row">
+                    <div class="col-12 p-5" >
+                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                                    aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                                    aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="../../../static/assets/1.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h1>연어</h1>
 
-                <div class="col-12 col-md-4">
-                    <form action="" th:action method="post">
-                        <div>
-                            <input type="text" id="datePicker" name="datePicker" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="../../../static/assets/2.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h1>오리</h1>
+
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="../../../static/assets/3.jpg" class="d-block w-100" alt="...">
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h1>스테이크</h1>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="btn btn-success" type="submit">조회하기</button>
-                        <b id="selected">조회할 날짜를 선택하세요.</b>
-                    </form>
-                </div>
-                <div class="col-12 col-md-8" style="border-style: solid; border-color:gray">
-                    <div th:each="table : ${tables}"
-                         th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}" class="item">
-                        <tablenum th:text="${table.getNumber()}">5</tablenum>
-                        <tabletext th:text="${table.isEmpty() ? '예약 가능' : '예약 불가능'}">예약 불가능</tabletext>
+
+
                     </div>
                 </div>
             </div>
+			
+		</div>
+	</div>
+	<footer class="footer py-3 bg-dark">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-lg-start text-light" >
+                    소프트웨어공학 1조
+                </div>
+
+                <div class="col-lg-6 text-lg-end text-light">
+                    최준규 이재익 신희원 배혜림
+                </div>
+            </div>
         </div>
-    </section>
+    </footer>
 
 
-    <script>
+	<script>
         $.datetimepicker.setLocale('ko');
         $(function () {
             $('#datePicker').datetimepicker({
