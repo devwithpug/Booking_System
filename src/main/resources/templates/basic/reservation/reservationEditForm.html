@@ -6,13 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reservation Edit</title>
 <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
-<link th:href="@{/assets/_bootstrap4.6v_.min.css}" href="../../../static/assets/_bootstrap4.6v_.min.css" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
 <link th:href="@{/assets/reservation.css}" href="../../../static/assets/reservation.css" rel="stylesheet">
 <link th:href="@{/assets/_bootstrap-select.min.css}" href="../../../static/assets/_bootstrap-select.min.css" rel="stylesheet">
 <script th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap.bundle.min.js}" src="../../../static/assets/_bootstrap.bundle.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap-select-2.min.js}" src="../../../static/assets/_bootstrap-select-2.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap-select.min.js}" src="../../../static/assets/_bootstrap-select.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap5.0v_.min.js}" src="../../../static/assets/_bootstrap5.0v_.min.js" type="text/javascript"></script>
 </head>
 
 <nav th:replace="fragments/customerNav.html" :: navigator></nav>
@@ -92,7 +93,7 @@
 										>수정하기</button>
 							</div>
 							<div class="col-6 text-center">
-								<button class="submit-btn2" id="btn2" type="button"
+								<button class="submit-btn1" id="btn2" type="button"
 										onclick="location.href='reservationDeleteForm.html'"
 										th:onclick="|location.href='@{/reservation/{customerOid}/delete/{reservationOid}/(customerOid=${customer.oid}, reservationOid=${reservation.oid})}'|"
 										>예약 취소</button>

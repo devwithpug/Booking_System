@@ -46,6 +46,9 @@
 						<h1 class="text-dark py-sm-5">
 							<span class="fw-light" th:text="'총 예약 현황 : '+${allReservationCount}+' / 남은 테이블 : '+${count}">예약현황 : 1 남은 테이블 : 5</span>
 						</h1>
+						<button class="btn btn-primary btn-lg mx-auto d-grid gap-2 col-5 btn-line-5" type="button"
+								onclick="location.href='reservationCreateForm.html'"
+								th:onclick="|location.href='@{/reservation/{customerOid}/create/(customerOid=${customer.oid})}'|">예약하기</button>
 					</div>
 
 				</div>

@@ -122,16 +122,16 @@ body {
 	letter-spacing: 0.4px;
 }
 
-.booking-form .submit-btn {
+.booking-form .submit-btn1 {
 	margin-top: 40px;
 	color: #fff;
-	background-color: #02c2c7;
+	background-color: #ff0000;
 	font-weight: 400;
-	height: 50px;
+	height: 50px; border : none; width : 100%; display : block;
+	letter-spacing: 0.4px;
 	border: none;
 	width: 100%;
 	display: block;
-	letter-spacing: 0.4px;
 }
 
 .booking-form .submit-btn2 {
@@ -143,5 +143,13 @@ body {
 	letter-spacing: 0.4px;
 	border: none;
 	width: 100%;
+	display: block;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
 	display: block;
 }

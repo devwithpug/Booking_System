@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-
-<title>Insert title here</title>
-<link th:href="@{/assets/_bootstrap4.6v_.min.css}"
-	href="../../static/assets/_bootstrap4.6v_.min.css" rel="stylesheet">
-</head>
-<body>
 
 	<!--  네비게이션 바 -->
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navigator">
 		<div class="container-fluid">
 			<a class="navbar-brand pr-4"
-				onclick="location.href='../basic/reservation/main.html'">Food
+			   	th:href="|@{/main/{customerOid}/(customerOid=${customer.oid})}|"
+			   	href="../basic/reservation/main.html">Food
 				& Forest</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarColor02"
@@ -24,7 +15,7 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarColor02">
-				<ul class="navbar-nav mr-auto">
+				<ul class="navbar-nav ml-auto">
 					<li class="nav-item"><a class="nav-link"
 						th:href="|@{/main/{customerOid}/(customerOid=${customer.oid})}|"
 						href="../basic/reservation/main.html">Home</a></li>
@@ -37,26 +28,21 @@
 				</ul>
 
 
-				<form class="d-flex">
-					<ul class="navbar-nav navbar-right">
-						<img th:src="@{/assets/your-picture-nav.png}" src="../../static/assets/your-picture-nav.png" height="40">
-						<li class="nav-item"><a class="nav-link"
-							style="color: #FFFFFF;"
-							th:href="|@{/user/info/{customerOid}/(customerOid=${customer.oid})}|"
-							href="../../templates/basic/user/user.html"
-							th:text="|${customer.name} 님|">회원</a></li>
-						<li class="nav-item"><a style="color: #FFFFFF;"
-							class="nav-link"
-							th:href="@{/}"
-							href="location.href='../basic/user/loginForm.html'">Logout</a>
-						</li>
-					</ul>
-				</form>
+				<ul class="navbar-nav ms-auto">
+					<img th:src="@{/assets/your-picture-nav.png}" src="../../static/assets/your-picture-nav.png" height="40">
+					<li class="nav-item"><a class="nav-link"
+											style="color: #FFFFFF;"
+											th:href="|@{/user/info/{customerOid}/(customerOid=${customer.oid})}|"
+											href="../../templates/basic/user/user.html"
+											th:text="|${customer.name} 님|">회원</a></li>
+					<li class="nav-item"><a style="color: #FFFFFF;"
+											class="nav-link"
+											th:href="@{/}"
+											href="location.href='../basic/user/loginForm.html'">Logout</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
 
 	<!--  네비게이션 바 -->
-
-</body>
-</html>
