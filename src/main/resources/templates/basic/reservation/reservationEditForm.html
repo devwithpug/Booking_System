@@ -6,52 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reservation Edit</title>
 <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
-<link th:href="@{/assets/_bootstrap4.6v_.min.css}" href="../../../static/assets/_bootstrap4.6v_.min.css" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
 <link th:href="@{/assets/reservation.css}" href="../../../static/assets/reservation.css" rel="stylesheet">
 <link th:href="@{/assets/_bootstrap-select.min.css}" href="../../../static/assets/_bootstrap-select.min.css" rel="stylesheet">
 <script th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap.bundle.min.js}" src="../../../static/assets/_bootstrap.bundle.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap-select-2.min.js}" src="../../../static/assets/_bootstrap-select-2.min.js" type="text/javascript"></script>
 <script th:src="@{/assets/_bootstrap-select.min.js}" src="../../../static/assets/_bootstrap-select.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap5.0v_.min.js}" src="../../../static/assets/_bootstrap5.0v_.min.js" type="text/javascript"></script>
 </head>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="#">Navbar</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navbarColor02" aria-controls="navbarColor02"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 
-		<div class="collapse navbar-collapse" id="navbarColor02">
-			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link active" href="#">Home
-						<span class="visually-hidden">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Features</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-					role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#">Action</a> <a
-							class="dropdown-item" href="#">Another action</a> <a
-							class="dropdown-item" href="#">Something else here</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Separated link</a>
-					</div></li>
-			</ul>
-			<form class="d-flex">
-				<label> <input class="form-control me-sm-2" type="text"
-					placeholder="Search">
-				</label>
-				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-			</form>
-		</div>
-	</div>
-</nav>
+<nav th:replace="fragments/customerNav.html" :: navigator></nav>
 
 <body>
 	<div class="container">
@@ -128,7 +93,7 @@
 										>수정하기</button>
 							</div>
 							<div class="col-6 text-center">
-								<button class="submit-btn2" id="btn2" type="button"
+								<button class="submit-btn1" id="btn2" type="button"
 										onclick="location.href='reservationDeleteForm.html'"
 										th:onclick="|location.href='@{/reservation/{customerOid}/delete/{reservationOid}/(customerOid=${customer.oid}, reservationOid=${reservation.oid})}'|"
 										>예약 취소</button>
@@ -139,6 +104,7 @@
 			</div>
 		</div>
 	</div>
+	<footer th:replace="fragments/footer.html" :: footer></footer>
 	<script>
 		$(document).ready(function() {
 			$('.multi-select').selectpicker();

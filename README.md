@@ -2,6 +2,8 @@
 
 ## 2021-1 소프트웨어 공학 팀프로젝트 1조
 
+![image](https://user-images.githubusercontent.com/69145799/120089985-fe610580-c139-11eb-84c0-662d286911d9.png)
+
 ## [Pull Request 방법](./CONTRIBUTING.md)
 
 # 🥂🥩 레스토랑 예약 시스템 🍖🍨
