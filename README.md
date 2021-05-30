@@ -2,7 +2,7 @@
 
 ## 2021-1 소프트웨어 공학 팀프로젝트 1조
 
-![image](https://user-images.githubusercontent.com/69145799/120078323-e9f51c80-c0e9-11eb-9bc5-0a1902a32012.png)
+![image](https://user-images.githubusercontent.com/69145799/120088184-26943880-c129-11eb-888d-469cdf2a21dd.png)
 
 ## [Pull Request 방법](./CONTRIBUTING.md)
 
