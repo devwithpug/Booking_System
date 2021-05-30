@@ -2,6 +2,7 @@ package kgu.sw.team1.booksys.web.controller;
 
 import kgu.sw.team1.booksys.domain.*;
 import kgu.sw.team1.booksys.domain.param.UserParam;
+import kgu.sw.team1.booksys.web.service.EmailService;
 import kgu.sw.team1.booksys.web.service.ReservationService;
 import kgu.sw.team1.booksys.web.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,12 @@ public class UserController {
 
     private final UserService userService;
     private final ReservationService reservationService;
+    private final EmailService emailService;
 
-    public UserController(UserService userService, ReservationService reservationService) {
+    public UserController(UserService userService, ReservationService reservationService, EmailService emailService) {
         this.userService = userService;
         this.reservationService = reservationService;
+        this.emailService = emailService;
     }
 
     /**
@@ -60,7 +63,12 @@ public class UserController {
      */
     @PostMapping("/user/signup")
     public String signUp(UserParam param) {
-        userService.signUp(param);
+        Customer customer = userService.signUp(param);
+        try {
+            emailService.sendMessage(customer, 1);
+        } catch(Exception e) {
+            System.out.println("sendMessage Failed");
+        }
         return "redirect:/";
     }
 

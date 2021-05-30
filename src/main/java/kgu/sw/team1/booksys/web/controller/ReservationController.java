@@ -6,6 +6,7 @@ import kgu.sw.team1.booksys.domain.Tables;
 import kgu.sw.team1.booksys.domain.User;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
+import kgu.sw.team1.booksys.web.service.EmailService;
 import kgu.sw.team1.booksys.web.service.ReservationService;
 import kgu.sw.team1.booksys.web.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,10 +25,12 @@ public class ReservationController {
 
     private final UserService userService;
     private final ReservationService reservationService;
+    private final EmailService emailService;
 
-    public ReservationController(UserService userService, ReservationService reservationService) {
+    public ReservationController(UserService userService, ReservationService reservationService, EmailService emailService) {
         this.userService = userService;
         this.reservationService = reservationService;
+        this.emailService = emailService;
     }
 
     /**
@@ -91,7 +94,12 @@ public class ReservationController {
                 return "redirect:/reservation/"+customerOid+"/create";
             }
         }
-        reservationService.makePreReservation(param);
+        Reservation reservation = reservationService.makePreReservation(param);
+        try {
+            emailService.sendMessage(reservation.getCustomer(), 2);
+        } catch(Exception e) {
+            System.out.println("sendMessage Failed");
+        }
         return "redirect:/user/info/"+customerOid;
     }
 
@@ -153,6 +161,5 @@ public class ReservationController {
         return "redirect:/user/info/{customerOid}";
     }
 
-    // TODO - [POST] 사전 예약 요청
     // TODO - [GET] 예약 완료
 }
