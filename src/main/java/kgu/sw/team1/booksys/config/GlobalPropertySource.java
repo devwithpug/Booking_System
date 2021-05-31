@@ -1,4 +1,4 @@
-package kgu.sw.team1.booksys;
+package kgu.sw.team1.booksys.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

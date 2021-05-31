@@ -1,15 +1,9 @@
 package kgu.sw.team1.booksys.web.service;
 
-import kgu.sw.team1.booksys.domain.Customer;
-import kgu.sw.team1.booksys.domain.Reservation;
-import kgu.sw.team1.booksys.domain.Tables;
-import kgu.sw.team1.booksys.domain.WalkIn;
+import kgu.sw.team1.booksys.domain.*;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
-import kgu.sw.team1.booksys.repository.CustomerRepository;
-import kgu.sw.team1.booksys.repository.ReservationRepository;
-import kgu.sw.team1.booksys.repository.TablesRepository;
-import kgu.sw.team1.booksys.repository.WalkInRepository;
+import kgu.sw.team1.booksys.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,13 +20,15 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TablesRepository tablesRepository;
     private final WalkInRepository walkInRepository;
+    private final ReservationNotifyQueueRepository notifyQueueRepository;
     private final List<Integer> waitingList;
 
-    public ReservationService(CustomerRepository customerRepository, ReservationRepository reservationRepository, TablesRepository tablesRepository, WalkInRepository walkInRepository) {
+    public ReservationService(CustomerRepository customerRepository, ReservationRepository reservationRepository, TablesRepository tablesRepository, WalkInRepository walkInRepository, ReservationNotifyQueueRepository notifyQueueRepository) {
         this.customerRepository = customerRepository;
         this.reservationRepository = reservationRepository;
         this.tablesRepository = tablesRepository;
         this.walkInRepository = walkInRepository;
+        this.notifyQueueRepository = notifyQueueRepository;
         this.waitingList = new ArrayList<>();
     }
 
@@ -57,7 +53,32 @@ public class ReservationService {
         reservation.setDate(LocalDate.parse(param.getDate()));
         reservation.setTime(LocalTime.parse(param.getTime()));
         reservation.setCovers(param.getCovers());
-        return reservationRepository.save(reservation);
+
+        Reservation saved = reservationRepository.save(reservation);
+
+        registerNotifyQueue(saved.getOid(), param);
+
+        return saved;
+    }
+
+    /**
+     * 예약 사전 알림 등록
+     */
+    public ReservationNotifyQueue registerNotifyQueue(Integer reservationOid, ReservationParam param) {
+        ReservationNotifyQueue queue = new ReservationNotifyQueue();
+        Customer customer = customerRepository.findById(param.getCustomerOid()).get();
+        queue.setEmail(customer.getEmail());
+        queue.setDate(LocalDate.parse(param.getDate()).minusDays(1));
+        queue.setReservationOid(reservationOid);
+        queue.setCustomerOid(customer.getOid());
+        return notifyQueueRepository.save(queue);
+    }
+
+    /**
+     * 예약 사전 알림 삭제
+     */
+    public void deleteNotifyQueue(Integer reservationOid) {
+        notifyQueueRepository.deleteByReservationOid(reservationOid);
     }
 
     /**
@@ -161,6 +182,8 @@ public class ReservationService {
         reservation.getCustomer().setReservation(reservations);
         List<Tables> tables = reservation.getTables();
         reservationRepository.delete(reservation);
+        deleteNotifyQueue(reservationOid);
+
         processOnSiteReservation();
     }
 
@@ -181,6 +204,10 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationOid).get();
         reservation.setDate(LocalDate.parse(date));
         reservation.setTime(LocalTime.parse(time));
+
+        ReservationNotifyQueue queue = notifyQueueRepository.findByReservationOid(reservationOid);
+        queue.setDate(LocalDate.parse(date).minusDays(1));
+        notifyQueueRepository.save(queue);
 
         return reservationRepository.save(reservation);
     }
@@ -276,5 +303,4 @@ public class ReservationService {
         return tablesRepository.findAll();
     }
 
-    // TODO - 예약 알림
 }

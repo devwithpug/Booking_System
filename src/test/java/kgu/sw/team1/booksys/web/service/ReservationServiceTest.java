@@ -1,17 +1,16 @@
 package kgu.sw.team1.booksys.web.service;
 
-import kgu.sw.team1.booksys.domain.Customer;
-import kgu.sw.team1.booksys.domain.Reservation;
-import kgu.sw.team1.booksys.domain.Tables;
-import kgu.sw.team1.booksys.domain.WalkIn;
+import kgu.sw.team1.booksys.domain.*;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.repository.CustomerRepository;
+import kgu.sw.team1.booksys.repository.ReservationNotifyQueueRepository;
 import kgu.sw.team1.booksys.repository.TablesRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,6 +25,8 @@ class ReservationServiceTest {
     private CustomerRepository customerRepository;
     @Autowired
     private TablesRepository tablesRepository;
+    @Autowired
+    private ReservationNotifyQueueRepository notifyQueueRepository;
 
 
     @Test
@@ -45,6 +46,9 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         // then
         Reservation result = reservationService.findCustomerReservation(savedCustomer).get(0);
+        ReservationNotifyQueue queue = notifyQueueRepository.findByReservationOid(savedReservation.getOid());
+
+        assertThat(queue.getDate()).isEqualTo(LocalDate.parse("2021-07-29"));
         assertThat(result.getOid()).isEqualTo(savedReservation.getOid());
         assertThat(savedReservation.getTables().isEmpty()).isFalse();
         assertThat(savedReservation.getTables()).hasSize(2);
@@ -103,6 +107,9 @@ class ReservationServiceTest {
         Reservation changed = reservationService.modifyReservationTime(savedReservation.getOid(), date, time);
         // then
         Reservation result = reservationService.findCustomerReservation(savedCustomer).get(0);
+        ReservationNotifyQueue queue = notifyQueueRepository.findByReservationOid(changed.getOid());
+
+        assertThat(queue.getDate()).isEqualTo(LocalDate.parse("2021-08-04"));
         assertThat(result.getDate()).isEqualTo(date);
         assertThat(result.getTime()).isEqualTo(time);
     }
@@ -124,7 +131,9 @@ class ReservationServiceTest {
         Reservation savedReservation = reservationService.makePreReservation(param);
         reservationService.cancelReservation(savedReservation.getOid());
         // then
+        ReservationNotifyQueue queue = notifyQueueRepository.findByReservationOid(savedReservation.getOid());
         List<Reservation> result = reservationService.findCustomerReservation(savedCustomer);
+        assertThat(queue).isNull();
         assertThat(result).isEmpty();
     }
 

@@ -1,4 +1,4 @@
-package kgu.sw.team1.booksys;
+package kgu.sw.team1.booksys.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
