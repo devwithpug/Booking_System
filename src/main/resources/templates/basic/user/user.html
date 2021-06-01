@@ -92,35 +92,35 @@
 		<!-- 나의 예약 확인 -->
 		<h5 class="font-size30 mb-5">예약 내역</h5>
 			<div class="card-body">
-						<table class="table table-striped" style="width:100%">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>예약자명</th>
-									<th>날짜</th>
-									<th>시간</th>
-									<th>테이블번호</th>
-									<th>인원수</th>
-									<th>예약 관리</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="reservation : ${reservations}">
-									<td th:text="${reservation.oid}">1</td>
-									<td th:text="${reservation.customer.name}">홍길동</td>
-									<td th:text="${reservation.date}">2021-05-11</td>
-									<td th:text="${reservation.time}+' - '+${reservation.endTime}">18:00 - 19:00</td>
-									<td th:text="${reservation.tables}">5</td>
-									<td th:text="${reservation.covers}">3</td>
-									<td><button type="button" class="btn btn-info"
-												onclick="location.href='reservationEditForm.html'"
-												th:onclick="|location.href='@{/reservation/{customerOid}/edit/{reservationOid}/(customerOid=${customer.oid}, reservationOid=${reservation.oid})}'|"
-									>예약 수정</button></td>
-								</tr>
-								
-							</tbody>
-						</table>
-					</div>
+				<table class="table table-striped" style="width:100%">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>예약자명</th>
+							<th>날짜</th>
+							<th>시간</th>
+							<th>테이블번호</th>
+							<th>인원수</th>
+							<th>예약 관리</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="reservation : ${reservations}">
+							<td th:text="${reservation.oid}">1</td>
+							<td th:text="${reservation.customer.name}">홍길동</td>
+							<td th:text="${reservation.date}">2021-05-11</td>
+							<td th:text="${reservation.time}+' - '+${reservation.endTime}">18:00 - 19:00</td>
+							<td th:text="${reservation.tables}">5</td>
+							<td th:text="${reservation.covers}">3</td>
+							<td><button type="button" class="btn btn-info"
+										onclick="location.href='reservationEditForm.html'"
+										th:onclick="|location.href='@{/reservation/{customerOid}/edit/{reservationOid}/(customerOid=${customer.oid}, reservationOid=${reservation.oid})}'|"
+							>예약 수정</button></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
 		<div class="sm-no-margin">
 		</div>
 	</div>

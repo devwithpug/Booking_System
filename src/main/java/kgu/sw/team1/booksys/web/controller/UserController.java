@@ -45,6 +45,11 @@ public class UserController {
         if (grade == null) return "basic/user/loginForm";
 
         User user = userService.login(param.getId(), param.getPw());
+        if (user.getGrade() == Grade.ADMIN) {
+            redirectAttributes.addAttribute("adminOid", user.getAdmin().getOid());
+            return "redirect:/admin/{adminOid}";
+        }
+
         Integer customerOid = user.getCustomer().getOid();
         redirectAttributes.addAttribute("customerOid", customerOid);
         return "redirect:/main/{customerOid}";

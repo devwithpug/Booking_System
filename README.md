@@ -4,6 +4,21 @@
 
 ![image](https://user-images.githubusercontent.com/69145799/120089985-fe610580-c139-11eb-84c0-662d286911d9.png)
 
+![image](https://user-images.githubusercontent.com/69145799/120297636-42076b00-c304-11eb-8a77-530bc7eff4ac.png)
+
+## 실행 전 설정 필수
+
+* `src/main/resources/my_application.properties` 파일 추가 
+
+```properties
+# 개인 정보이기 때문에 GitHub 에서 제외했습니다.
+spring.datasource.url=jdbc:mariadb://(db 주소 입력)
+spring.datasource.username=(db 계정 이름)
+spring.datasource.password=(db 계정 비밀번호)
+spring.mail.username=(email 사용 할 계정 아이디 // 구글 계정)
+spring.mail.password=(계정 비밀번호)
+```
+
 ## [Pull Request 방법](./CONTRIBUTING.md)
 
 # 🥂🥩 레스토랑 예약 시스템 🍖🍨

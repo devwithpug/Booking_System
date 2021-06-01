@@ -1,0 +1,57 @@
+	<!--  네비게이션 바 -->
+
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navigator">
+		<div class="container-fluid">
+			<a class="navbar-brand pr-4"
+			   th:href="|@{/admin/{adminOid}/main(adminOid=${adminOid})}|"
+			   href="../basic/admin/admin.html">Food
+				& Forest</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+				aria-controls="navbarColor02" aria-expanded="true"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarColor02">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/main(adminOid=${adminOid})}|"
+											href="../basic/admin/admin.html">Home</a></li>
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/history(adminOid=${adminOid})}|"
+											href="../basic/admin/adminHistory.html">예약 기록</a></li>
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/customer(adminOid=${adminOid})}|"
+											href="../basic/admin/adminCustomer.html">고객 관리</a></li>
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/reservation(adminOid=${adminOid})}|"
+											href="../basic/admin/adminReservation.html">사전 예약 관리</a></li>
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/walkin(adminOid=${adminOid})}|"
+											href="../basic/admin/adminWalkIn.html">현장 예약 관리</a></li>
+					<li class="nav-item"><a class="nav-link"
+											th:href="|@{/admin/{adminOid}/tables(adminOid=${adminOid})}|"
+											href="../basic/admin/adminTables.html">테이블 관리</a></li>
+				</ul>
+
+				<ul class="navbar-nav ms-auto">
+					<img th:src="@{/assets/your-picture-nav.png}" src="../../static/assets/your-picture.png" height="40">
+					<li class="nav-item"><a class="nav-link"
+											style="color: #FFFFFF;"
+											th:href="|@{/admin/{adminOid}/main(adminOid=${adminOid})}|"
+											href="../basic/admin/admin.html"
+											th:text="|${admin.name}|">관리자</a>
+					</li>
+					<li class="nav-item"><a style="color: #FFFFFF;"
+											class="nav-link"
+											th:href="@{/}"
+											href="location.href='../basic/user/loginForm.html'">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!--  네비게이션 바 -->

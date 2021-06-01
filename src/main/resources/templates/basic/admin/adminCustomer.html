@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>User manage</title>
+    <link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
+    <link th:href="@{/assets/adminDetail.css}" href="../../../static/assets/adminDetail.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+
+  <nav th:replace="fragments/adminNav.html" :: navigator></nav>
+
+    <div class="main3">
+      고객 관리 페이지
+    </div>
+
+    <div class="main">
+      <div class="title row">
+        <div class="col-7">
+          <h5 class="title6">총 고객 수 :</h5>
+          <h5 class="title6" th:text="${customers.size()}">5</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav2">
+      <table class="zui-table" style="width:100%">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>등급</th>
+          <th>이름</th>
+          <th>전화 번호</th>
+          <th>이메일</th>
+          <th>예약 수</th>
+          <th>고객 관리</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+          <td th:text="${customer.oid}">1</td>
+          <td th:text="${customer.user.grade}">VIP</td>
+          <td th:text="${customer.name}">홍길동</td>
+          <td th:text="${customer.phoneNumber}">010-1234-5678</td>
+          <td th:text="${customer.email}">zz@zz.com</td>
+          <td th:text="${customer.reservation.size()}">5</td>
+          <td><button type="button" class="btn btn-sm btn-primary"
+                      onclick="location.href='deleteCustomerForm.html'"
+                      th:onclick="|location.href='@{/admin/{adminOid}/customer/{customerOid}/delete(adminOid=${adminOid}, customerOid=${customer.oid})}'|"
+          >관리</button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 20px"></div>
+    <footer th:replace="fragments/footer.html" :: footer></footer>
+
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<nav th:replace="fragments/adminNav.html" :: navigator></nav>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>테이블 수정</h2>
+    </div>
+
+    <form action="item.html" th:action method="post">
+        <div>
+            <label for="oid">테이블 #</label>
+            <input type="number" id="oid" name="oid" class="form-control" value="1" th:value="${tables.oid}" readonly>
+        </div>
+        <div>
+            <label for="places">구역 번호</label>
+            <input type="number" id="places" name="places" class="form-control" value="10" th:value="${tables.places}">
+        </div>
+        <div>
+            <label for="number">테이블 번호</label>
+            <input type="number" id="number" name="number" class="form-control" value="3" th:value="${tables.number}">
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col-2">
+                <button class="h-100 btn btn-danger"
+                        onclick="location.href='deleteTablesForm.html'"
+                        th:onclick="|location.href='@{/admin/{adminOid}/tables/{tablesOid}/delete(adminOid=${adminOid}, tablesOid=${tablesOid})}'|"
+                        type="button">삭제</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='adminTables.html'"
+                        th:onclick="|location.href='@{/admin/{adminOid}/tables(adminOid=${adminOid})}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+
+<div style="margin-top: 20px"></div>
+<footer th:replace="fragments/footer.html" :: footer></footer>
+
+</body>
+</html>
