@@ -4,6 +4,8 @@ import kgu.sw.team1.booksys.domain.*;
 import kgu.sw.team1.booksys.domain.param.ReservationParam;
 import kgu.sw.team1.booksys.domain.param.TablesParam;
 import kgu.sw.team1.booksys.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -138,6 +140,13 @@ public class ReservationService {
     }
 
     /**
+     * 현장 예약 조회
+     */
+    public WalkIn findOneWalkIn(Integer walkInOid) {
+        return walkInRepository.findById(walkInOid).get();
+    }
+
+    /**
      * 모든 현장 예약 조회
      */
     public List<WalkIn> findAllWalkIns() {
@@ -163,6 +172,20 @@ public class ReservationService {
      */
     public List<Reservation> findAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    /**
+     * 특정 범위 예약 조회
+     */
+    public List<Reservation> findAllReservationsBetween(LocalDate from, LocalDate to) {
+        return reservationRepository.findAllByDateBetween(from, to);
+    }
+
+    /**
+     * 예약 조회 페이징
+     */
+    public Page<Reservation> findAllReservations(Pageable pageable) {
+        return reservationRepository.findAll(pageable);
     }
 
     /**
@@ -276,10 +299,10 @@ public class ReservationService {
     }
 
     /**
-     * 빈 테이블이 있는지 확인
+     * 예약이 없는 테이블 조회
      */
-    public boolean isExistsEmptyTables() {
-        return tablesRepository.findAllEmptyTables().size() > 0;
+    public List<Tables> findAllTablesWithNoReservation() {
+        return tablesRepository.findAllByReservationsIsNull();
     }
 
     /**

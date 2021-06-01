@@ -181,6 +181,26 @@ class JpaRepositoryTest {
     }
 
     @Test
+    void 예약이_없는_테이블_찾기() {
+        // given
+        Tables table = new Tables();
+        table.setNumber(10);
+        table.setPlaces(1);
+        Tables table2 = new Tables();
+        table2.setNumber(11);
+        table2.setPlaces(1);
+        Reservation reservation = new Reservation();
+        // when
+        Tables savedTable1 = tablesRepository.save(table);
+        Tables savedTable2 = tablesRepository.save(table2);
+        reservation.setTables(List.of(savedTable2));
+        reservationRepository.save(reservation);
+        // then
+        List<Tables> result = tablesRepository.findAllByReservationsIsNull();
+        assertThat(result).containsOnly(savedTable1);
+    }
+
+    @Test
     void 예약_번호로_예약_찾기() {
         // given
         Customer customer = customerRepository.save(new Customer());

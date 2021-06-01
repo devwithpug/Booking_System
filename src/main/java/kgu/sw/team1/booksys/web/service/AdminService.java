@@ -62,10 +62,25 @@ public class AdminService {
     }
 
     /**
+     * 테이블 oid 로 삭제
+     */
+    public void deleteTablesWithOid(Integer tablesOid) {
+        Tables tables = tablesRepository.findById(tablesOid).get();
+        tablesRepository.delete(tables);
+    }
+
+    /**
      * 테이블 조회
      */
     public Tables findOne(Integer number) {
         return tablesRepository.findByNumber(number);
+    }
+
+    /**
+     * 테이블 oid 조회
+     */
+    public Tables findOneWithOid(Integer tablesOid) {
+        return tablesRepository.findById(tablesOid).get();
     }
 
     /**
@@ -124,7 +139,6 @@ public class AdminService {
     public ReservationHistory setReservationArrival(Reservation reservation) {
         reservation = reservationService.saveArrivalInfo(reservation.getOid());
         ReservationHistory reservationHistory = new ReservationHistory(reservation);
-        reservationService.cancelReservation(reservation.getOid());
         processBasicToVIP(reservation.getCustomer().getUser());
         return reservationHistoryRepository.save(reservationHistory);
     }
@@ -138,23 +152,41 @@ public class AdminService {
     }
 
     /**
+     * 모든 예약 기록 조회
+     */
+    public List<ReservationHistory> findAllHistories() {
+        return reservationHistoryRepository.findAll();
+    }
+
+    /**
      * 회원 예약 기록 조회
      */
-    public List<ReservationHistory> findAllHistoryByUser(User user) {
+    public List<ReservationHistory> findAllHistoriesByUser(User user) {
         return reservationHistoryRepository.findAllByUserOid(user.getOid());
     }
 
     /**
      * 등급별 예약 기록 조회
      */
-    public List<ReservationHistory> findAllHistoryByGrade(Grade grade) {
+    public List<ReservationHistory> findAllHistoriesByGrade(Grade grade) {
         return reservationHistoryRepository.findAllByGrade(grade);
     }
 
     /**
      * 날짜 범위 내 예약 기록 조회
      */
-    public List<ReservationHistory> findAllHistoryByDateBetween(LocalDate from, LocalDate to) {
+    public List<ReservationHistory> findAllHistoriesByDateBetween(LocalDate from, LocalDate to) {
         return reservationHistoryRepository.findAllByDateBetween(from, to);
+    }
+
+    /**
+     * 예약이 없는 테이블 empty 설정
+     */
+    public void setEmptyTables() {
+        List<Tables> emptyTables = reservationService.findAllTablesWithNoReservation();
+        for (Tables emptyTable : emptyTables) {
+            emptyTable.setEmpty(true);
+        }
+        tablesRepository.saveAll(emptyTables);
     }
 }

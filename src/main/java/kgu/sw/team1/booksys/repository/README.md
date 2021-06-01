@@ -11,3 +11,4 @@
 * [x] `AdminRepository.java`
 * [x] `UserRepository.java`
 * [x] `ReservationHistoryRepository.java`
+* [x] `ReservationNotifyQueueRepository.java`

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Reservation manage</title>
+    <link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
+    <link th:href="@{/assets/adminDetail.css}" href="../../../static/assets/adminDetail.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+
+  <nav th:replace="fragments/adminNav.html" :: navigator></nav>
+
+    <div class="main3">
+      예약 관리 페이지
+    </div>
+
+    <div class="main">
+      <div class="title row">
+        <div class="col-7">
+          <h5 class="title6">총 예약 건수 :</h5>
+          <h5 class="title6" th:text="${reservations.size()}">5</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav2">
+      <table class="zui-table" style="width:100%">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>예약자 명</th>
+          <th>날짜</th>
+          <th>시간</th>
+          <th>테이블 번호</th>
+          <th>인원 수</th>
+          <th>예약 관리</th>
+          <th>식사 완료</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+          <td th:text="${reservation.oid}">1</td>
+          <td th:text="${reservation.customer.name}">홍길동</td>
+          <td th:text="${reservation.date}">2021-05-11</td>
+          <td th:text="${reservation.time}+' - '+${reservation.endTime}">18:00 - 19:00</td>
+          <td th:text="${reservation.tables}">5</td>
+          <td th:text="${reservation.covers}">3</td>
+          <td><button type="button" class="btn btn-sm btn-primary"
+                      onclick="location.href='deleteReservationForm.html'"
+                      th:onclick="|location.href='@{/admin/{adminOid}/reservation/{reservationOid}/delete/(adminOid=${adminOid}, reservationOid=${reservation.oid})}'|"
+          >관리</button></td>
+          <form th:action method="post">
+            <input th:value="${reservation.oid}" name="reservationOid" id="reservationOid" hidden="hidden">
+            <td><button class="btn btn-sm btn-info" type="submit">완료</button></td>
+          </form>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 20px"></div>
+    <footer th:replace="fragments/footer.html" :: footer></footer>
+
+  </body>
+</html>

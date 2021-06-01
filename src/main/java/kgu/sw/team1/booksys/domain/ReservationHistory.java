@@ -17,6 +17,7 @@ public class ReservationHistory {
     private Integer userOid;
 
     @Column(name = "grade")
+    @Enumerated(EnumType.STRING)
     private Grade grade;
 
     @Column(name = "covers")

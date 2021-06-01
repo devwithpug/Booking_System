@@ -28,7 +28,7 @@
 * `AdminService.java`
     + 추가 기능
         - [x] 테이블 추가/변경/삭제
-        - [ ] 통계(VIP/월 고객 수)
+        - [x] 통계(VIP/월 고객 수)
     
 
 * `EmailService.java`

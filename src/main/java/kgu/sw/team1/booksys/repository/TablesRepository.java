@@ -14,4 +14,5 @@ public interface TablesRepository extends JpaRepository<Tables, Integer> {
     Tables findByNumber(Integer number);
     List<Tables> findAllByPlaces(Integer places);
     boolean existsByNumber(Integer number);
+    List<Tables> findAllByReservationsIsNull();
 }

@@ -71,7 +71,7 @@
 							th:style="${(table.isEmpty) ? 'background: green;':'background: red;'}"
 							class="item">
 							<tablenum th:text="${table.getNumber()}">51</tablenum>
-							<tabletext th:text="${table.isEmpty() ? ' 예약 가능' : ' 예약 불가능'}">예약 여부</tabletext>
+							<tabletext th:text="${(table.isEmpty) ? ' 예약 가능' : ' 예약 불가능'}">예약 여부</tabletext>
 						</div>
 					</div>
 				</div>

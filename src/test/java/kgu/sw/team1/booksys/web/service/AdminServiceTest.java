@@ -206,7 +206,6 @@ class AdminServiceTest {
         // when
         ReservationHistory reservationHistory = adminService.setReservationArrival(reservation);
         // then
-        assertThat(reservationService.findAllReservations()).isEmpty();
-        assertThat(adminService.findAllHistoryByUser(user).size()).isEqualTo(1);
+        assertThat(adminService.findAllHistoriesByUser(user).size()).isEqualTo(1);
     }
 }
