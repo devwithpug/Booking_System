@@ -4,6 +4,8 @@
 
 ![image](https://user-images.githubusercontent.com/69145799/120089985-fe610580-c139-11eb-84c0-662d286911d9.png)
 
+![image2](https://user-images.githubusercontent.com/69145799/120297636-42076b00-c304-11eb-8a77-530bc7eff4ac.png)
+
 ## 실행 전 설정 필수
 
 * `src/main/resources/my_application.properties` 파일 추가 
