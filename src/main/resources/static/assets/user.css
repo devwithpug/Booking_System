@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
+
+nav {
+	position: relative; z-index: 2;
+}
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0.8px;
+    margin-top:0px;
+    background:#f5f7fa;
+
+}
+
+.font-size30 {
+    font-size: 30px;
+}
+.container {
+	position: relative; z-index: 2;
+	margin-top: 100px;
+	background-color: #ffffff;
+	padding: 30px 30px 20px;
+	border-top-width: 3px;
+	box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+    border: 0;
+    border-radius: 4px;
+    margin-bottom: 50px;
+	
+}
+.team-single {
+	margin-bottom: 30px;
+}
+.team-single-text .section-heading h4,
+.section-heading h5 {
+    font-size: 36px;
+}
+
+.team-single-text .section-heading.half {
+    margin-bottom: 20px
+}
+
+
+.profile-title {
+	margin-bottom: 10px;
+}
+.btn-area{
+	padding: 30px;
+	margin-bottom: 50px;
+}
+.card-body {
+	padding: 0px;
+	margin-top: 20px;
+}
+@media screen and (max-width: 1199px) {
+    .team-single-text .section-heading h4,
+    .section-heading h5 {
+        font-size: 32px
+    }
+    .team-single-text .section-heading.half {
+        margin-bottom: 15px
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .team-single-text .section-heading h4,
+    .section-heading h5 {
+        font-size: 28px
+    }
+    .team-single-text .section-heading.half {
+        margin-bottom: 10px
+    }
+}
+.grade p { color: #f0d001; }
+.grade i { color: #f0d001; }
+
+.team-social-icon i {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 50px
+}
+
+.padding-30px-all {
+    padding: 30px;
+}
+.bg-light-gray {
+    background-color: #f7f7f7;
+}
+.text-center {
+    text-align: center!important;
+}
+img {
+    max-width: 100%;
+    height: auto;   
+   	margin-left: auto; 
+   	margin-right: auto; 
+   	display: block;
+}
+.text-color {
+    color: #02c2c7
+}
+.list-style9 {
+    list-style: none;
+    padding: 0
+}
+
+.list-style9 li {
+    position: relative;
+    padding: 0 0 15px 0;
+    margin: 0 0 15px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1)
+}
+
+.list-style9 li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0
+}

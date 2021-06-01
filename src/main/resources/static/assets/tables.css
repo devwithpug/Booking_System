@@ -1,0 +1,52 @@
+@charset "UTF-8";
+body{
+	font-family: 'Noto Sans KR', sans-serif;
+    background:#f5f7fa;
+}
+.bg-position-center {
+    background-position: center !important;
+}
+.bg-size-cover {
+    background-size: cover !important;
+}
+.bg-accent {
+    background-color: #4e54c8 !important;
+}
+.item {
+    width: 100px;
+    height: 100px;
+    background: gray;
+    margin: 4px;
+    display: inline-block;
+
+    text-align: center;
+    vertical-align: middle;
+
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+}
+
+tablenum {
+    line-height: 90px;
+    text-align: center;
+    font-size: 60px;
+}
+tabletext {
+    font-size: 20px;
+    white-space: nowrap;
+    position: relative;
+    top: -20%;
+}
+
+.text_border {
+    font-size: 38px;
+    text-shadow: -1.5px 0 #000000, 0 1.5px #000000, 1.5px 0 #000000, 0 -1.5px #000000;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

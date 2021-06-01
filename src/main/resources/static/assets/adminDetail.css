@@ -1,0 +1,96 @@
+body{
+    background-color : #e9e9e9;
+}
+
+.nav {
+    height: 70px;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    background-color: #333333;
+    color: white;
+}
+
+.nav-right-items {
+    display: flex;
+    margin-right: auto;
+    margin-left: 20px;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.title {
+    height : 70px;
+    font-weight: bold;
+    background-color : #ffffff;
+    line-height: 70px;
+}
+
+.nav2 {
+    margin-left: 60px;
+    margin-right: 60px;
+    background-color : #ffffff;
+    margin-top: 40px;
+    padding : 50px;
+}
+
+.main3 {
+    font-size: 1.8rem;
+    display: flex;
+    margin-right: auto;
+    margin-left: 80px;
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+.title6 {
+    margin-left : 25px;
+    display: inline;
+}
+
+.bt2 {
+    text-align: right;
+    margin-right : 20px;
+
+}
+
+.bt2 .bt3{
+    width: 100px;
+    height: 30px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color:white;
+}
+
+
+.main2 {
+    margin-top: 150px;
+}
+
+.main{
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 30px;
+}
+
+.zui-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    border: solid 1px #000000;
+    color: #000000;
+    padding: 10px;
+    text-align: left;
+}
+.zui-table tbody td {
+    border: solid 1px #000000;
+    color: #333;
+    padding: 10px;
+}

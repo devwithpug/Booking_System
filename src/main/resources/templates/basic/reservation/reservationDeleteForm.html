@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reservation Delete</title>
+<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap5.0v_.min.css}" href="../../../static/assets/_bootstrap5.0v_.min.css" rel="stylesheet">
+<link th:href="@{/assets/reservation.css}" href="../../../static/assets/reservation.css" rel="stylesheet">
+<link th:href="@{/assets/_bootstrap-select.min.css}" href="../../../static/assets/_bootstrap-select.min.css" rel="stylesheet">
+<script th:src="@{/assets/jquery.min.js}" src="../../../static/assets/jquery.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap.bundle.min.js}" src="../../../static/assets/_bootstrap.bundle.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap-select-2.min.js}" src="../../../static/assets/_bootstrap-select-2.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap-select.min.js}" src="../../../static/assets/_bootstrap-select.min.js" type="text/javascript"></script>
+<script th:src="@{/assets/_bootstrap5.0v_.min.js}" src="../../../static/assets/_bootstrap5.0v_.min.js" type="text/javascript"></script>
+</head>
+
+<nav th:replace="fragments/customerNav.html" :: navigator></nav>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="booking-form">
+				<form action="" th:action method="post">
+					<div class="row">
+						<div class="form-header">
+							<h1>예약 취소</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<span class="form-label">이름</span>
+								<p class="info-form" th:text="${customer.name}">홍길동</p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<span class="form-label">전화번호</span>
+								<p class="info-form" th:text="${customer.phoneNumber}">010-0000-0000</p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<span class="form-label">이메일</span>
+								<p class="info-form" th:text="${customer.email}">email@email.com</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="form-label">날짜</span>
+								<p class="info-form" th:text="${reservation.date}">연도-월-일</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="form-label">시간</span>
+								<p class="info-form" th:text="${reservation.time}+' - '+${reservation.getEndTime()}">시작 - 종료</p>
+								<span class="select-arrow"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="form-label">테이블 번호</span>
+								<p class="info-form" th:text="${reservation.tables}">테이블 번호</p>
+								<span class="select-arrow"></span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<span class="form-label">인원수</span>
+								<p class="info-form" th:text="${reservation.covers}">인원 수</p>
+								<span class="select-arrow"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-btn">
+						<div class="row">
+							<div class="col-6 text-center">
+								<button class="submit-btn1" id="btn" type="submit"
+										>취소 확인</button>
+							</div>
+							<div class="col-6 text-center">
+								<button class="submit-btn2" id="btn2" type="button"
+										onclick="location.href='reservationEditForm.html'"
+										th:onclick="|location.href='@{/reservation/{customerOid}/edit/{reservationOid}/(customerOid=${customer.oid}, reservationOid=${reservation.oid})}'|"
+										>돌아가기</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer.html" :: footer></footer>
+</body>
+</html>

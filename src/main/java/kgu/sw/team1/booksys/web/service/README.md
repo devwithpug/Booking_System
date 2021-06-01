@@ -1,4 +1,37 @@
 ### 서비스 TO-DO LIST
 
-BookingSystemLoginService.java
-BookingSystemSignUpService.java
+* `UserService.java`
+    + 추가 기능
+        - [x] 회원가입
+        - [x] 로그인
+        - [x] 회원 등급 변경
+        - [x] 회원 정보 변경
+        - [x] 계정 삭제
+
+
+* `ReservationService.java`
+    + 기본 기능
+        - [x] 예약 등록(사전/현장)
+        - [x] 예약 조회
+        - [x] 예약 취소
+        - [x] 예약 변경(시간/좌석)
+        - [x] 도착 기록
+        - [x] 예약 가능 여부 확인
+    + 추가 기능
+        - [x] 다중 테이블 예약 / 변경
+        - [x] 현장 대기리스트
+        - [x] 테이블 자동 배정
+    + 차별화된 기능
+        - [x] 예약 알림
+
+
+* `AdminService.java`
+    + 추가 기능
+        - [x] 테이블 추가/변경/삭제
+        - [x] 통계(VIP/월 고객 수)
+    
+
+* `EmailService.java`
+    + 추가 기능
+        - [x] 이메일 전송
+        - [x] 예약 알림 스케쥴링
