@@ -80,7 +80,8 @@ public class ReservationService {
      * 예약 사전 알림 삭제
      */
     public void deleteNotifyQueue(Integer reservationOid) {
-        notifyQueueRepository.deleteByReservationOid(reservationOid);
+        ReservationNotifyQueue queue = notifyQueueRepository.findByReservationOid(reservationOid);
+        notifyQueueRepository.delete(queue);
     }
 
     /**
@@ -204,8 +205,8 @@ public class ReservationService {
         reservations.remove(reservation);
         reservation.getCustomer().setReservation(reservations);
         List<Tables> tables = reservation.getTables();
-        reservationRepository.delete(reservation);
         deleteNotifyQueue(reservationOid);
+        reservationRepository.delete(reservation);
 
         processOnSiteReservation();
     }

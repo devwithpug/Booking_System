@@ -11,5 +11,4 @@ import java.util.List;
 public interface ReservationNotifyQueueRepository extends JpaRepository<ReservationNotifyQueue, Integer> {
     List<ReservationNotifyQueue> findAllByDate(LocalDate date);
     ReservationNotifyQueue findByReservationOid(Integer reservationOid);
-    void deleteByReservationOid(Integer reservationOid);
 }

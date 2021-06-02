@@ -95,7 +95,7 @@ public class AdminController {
      */
     @GetMapping("/history")
     public String reservationHistories(@PathVariable Integer adminOid, Model model) {
-        List<ReservationHistory> histories = adminService.findAllHistories();
+        List<ReservationHistory> histories = adminService.findAllHistoriesDesc();
         Admin admin = userService.findOneAdmin(adminOid);
         model.addAttribute("admin", admin);
         model.addAttribute("histories", histories);

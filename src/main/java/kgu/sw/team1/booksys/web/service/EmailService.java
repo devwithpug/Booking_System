@@ -27,10 +27,13 @@ public class EmailService {
 
     @Value("classpath:/templates/email/signUpTemplates.html")
     private File signUp;
+
     @Value("classpath:/templates/email/reservationTemplates.html")
     private File reservation;
+
     @Value("classpath:/templates/email/notifyTemplates.html")
     private File notify;
+
     @Value("classpath:/static/assets/email_1.png")
     private File email_1;
 
@@ -72,7 +75,6 @@ public class EmailService {
                 helper.setText(readFile(notify), true);
                 helper.setSubject("[Food & Forest] 사전예약 임박 알림");
             }
-            helper.setText(readFile(signUp), true);
             helper.addInline("email_1", email_1);
         } catch (MessagingException e) {
             System.out.println(e.getMessage());
