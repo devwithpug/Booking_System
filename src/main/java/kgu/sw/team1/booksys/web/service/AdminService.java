@@ -159,6 +159,13 @@ public class AdminService {
     }
 
     /**
+     * 모든 예약 기록 정렬 조회
+     */
+    public List<ReservationHistory> findAllHistoriesDesc() {
+        return reservationHistoryRepository.findAllByOrderByDateDesc();
+    }
+
+    /**
      * 회원 예약 기록 조회
      */
     public List<ReservationHistory> findAllHistoriesByUser(User user) {

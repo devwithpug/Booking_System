@@ -16,4 +16,5 @@ public interface ReservationHistoryRepository extends JpaRepository<ReservationH
     List<ReservationHistory> findAllByDateBetween(
             LocalDate from, LocalDate to
     );
+    List<ReservationHistory> findAllByOrderByDateDesc();
 }
