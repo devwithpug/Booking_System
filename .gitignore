@@ -1,3 +1,5 @@
+# for Mac OS
+.DS_Store
 # private application.properties
 my_application.properties
 

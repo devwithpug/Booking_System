@@ -6,6 +6,7 @@ import kgu.sw.team1.booksys.domain.ReservationNotifyQueue;
 import kgu.sw.team1.booksys.repository.CustomerRepository;
 import kgu.sw.team1.booksys.repository.ReservationNotifyQueueRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -79,8 +80,11 @@ public class EmailService {
         } catch (MessagingException e) {
             System.out.println(e.getMessage());
         }
-
-        emailSender.send(message);
+        try {
+            emailSender.send(message);
+        } catch (MailAuthenticationException e) {
+            System.out.println("이메일 설정 예외 발생: 메일 전송에 실패했습니다.");
+        }
     }
 
     /**
